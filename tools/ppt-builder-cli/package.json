@@ -1,0 +1,20 @@
+{
+  "name": "ppt-builder-cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "build:example": "tsx src/cli.ts build examples/beiying.json --out output/zhuziqing-beiying-typescript-demo.pptx",
+    "build:beiying": "node src/build-beiying-demo.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

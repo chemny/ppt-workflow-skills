@@ -1,0 +1,16 @@
+node_modules/
+dist/
+output/
+outputs/
+*.pptx
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.webp
+.DS_Store
+.env
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

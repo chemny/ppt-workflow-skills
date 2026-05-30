@@ -1,0 +1,391 @@
+{
+  "meta": {
+    "title": "iPhone 17：标准版也值得认真看",
+    "subtitle": "面向换机用户的产品介绍简报",
+    "author": "Codex",
+    "subject": "iPhone 17 product briefing",
+    "company": "Workflow PPT Skills",
+    "date": "2026-05-31",
+    "event": "Product Briefing",
+    "lang": "zh-CN"
+  },
+  "theme": {
+    "id": "guizang-swiss",
+    "fontFace": "PingFang SC",
+    "coverVariant": "cobalt-blue"
+  },
+  "slides": [
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S01",
+      "pageType": "cover",
+      "slideNumber": 1,
+      "eyebrow": "IPHONE 17 BRIEF",
+      "title": "iPhone 17：标准版也值得认真看",
+      "subtitle": "不是 Pro 的替代品，而是这代 iPhone 最稳的日常选择",
+      "body": "基于 Apple 官方页面与技术规格整理"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S09",
+      "pageType": "concept-explain",
+      "slideNumber": 2,
+      "eyebrow": "POSITIONING",
+      "title": "这代标准版，核心变化不是一项参数",
+      "subtitle": "它把屏幕、相机、性能和耐用性同时抬到了更高基线。",
+      "items": [
+        {
+          "label": "6.3",
+          "title": "6.3 英寸",
+          "body": "Super Retina XDR，支持 ProMotion 最高 120Hz",
+          "tone": "blue"
+        },
+        {
+          "label": "48MP",
+          "title": "双 48MP",
+          "body": "Fusion Main + Fusion Ultra Wide，覆盖日常拍摄主场景",
+          "tone": "green"
+        },
+        {
+          "label": "A19",
+          "title": "A19 芯片",
+          "body": "日常性能、图形能力与 Apple Intelligence 的硬件底座",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple iPhone 17 page; Apple Support Tech Specs"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S04",
+      "pageType": "learning-objectives",
+      "slideNumber": 3,
+      "eyebrow": "DECISION",
+      "title": "普通用户买手机，真正关心的是这 6 件事",
+      "subtitle": "这份分享不堆参数，而是用换机决策来组织信息。",
+      "items": [
+        {
+          "label": "01",
+          "title": "屏幕是否顺滑",
+          "body": "日常滑动、阅读和户外可读性",
+          "tone": "blue"
+        },
+        {
+          "label": "02",
+          "title": "照片是否稳定",
+          "body": "主摄、超广角、自拍和视频",
+          "tone": "green"
+        },
+        {
+          "label": "03",
+          "title": "性能是否够久",
+          "body": "A19、GPU、神经引擎和系统寿命",
+          "tone": "yellow"
+        },
+        {
+          "label": "04",
+          "title": "续航是否放心",
+          "body": "视频播放、快充和 MagSafe",
+          "tone": "blue"
+        },
+        {
+          "label": "05",
+          "title": "机身是否耐用",
+          "body": "Ceramic Shield 2、IP68、抗反射",
+          "tone": "green"
+        },
+        {
+          "label": "06",
+          "title": "价格是否合理",
+          "body": "256GB 起步与 Pro 的边界",
+          "tone": "yellow"
+        }
+      ]
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S22",
+      "pageType": "concept-explain",
+      "slideNumber": 4,
+      "eyebrow": "DISPLAY",
+      "title": "屏幕升级，是每天都能感知的变化",
+      "subtitle": "ProMotion、户外峰值亮度和抗反射一起决定使用体感。",
+      "visual": {
+        "type": "native-diagram",
+        "caption": "DISPLAY SYSTEM"
+      },
+      "items": [
+        {
+          "label": "120Hz",
+          "title": "更顺滑",
+          "body": "ProMotion 自适应刷新率最高 120Hz",
+          "tone": "blue"
+        },
+        {
+          "label": "3000",
+          "title": "更亮",
+          "body": "户外峰值亮度最高 3000 nits",
+          "tone": "green"
+        },
+        {
+          "label": "6.3",
+          "title": "更完整",
+          "body": "6.3 英寸 Super Retina XDR OLED",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple Support iPhone 17 Tech Specs"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S22",
+      "pageType": "concept-explain",
+      "slideNumber": 5,
+      "eyebrow": "CAMERA",
+      "title": "相机的重点，是把常用焦段做扎实",
+      "subtitle": "iPhone 17 不靠复杂镜头数量讲故事，而是覆盖主摄、超广角和 2x 日常焦段。",
+      "visual": {
+        "type": "native-diagram",
+        "caption": "DUAL FUSION CAMERA"
+      },
+      "items": [
+        {
+          "label": "48MP",
+          "title": "Fusion Main",
+          "body": "支持 24MP / 48MP 超高分辨率照片",
+          "tone": "blue"
+        },
+        {
+          "label": "48MP",
+          "title": "Ultra Wide",
+          "body": "120° 视角，支持 48MP 微距摄影",
+          "tone": "green"
+        },
+        {
+          "label": "2x",
+          "title": "光学级长焦",
+          "body": "由主摄实现 12MP 2x Telephoto",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple Support iPhone 17 Tech Specs"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S13",
+      "pageType": "capability-map",
+      "slideNumber": 6,
+      "eyebrow": "SELFIE",
+      "title": "前摄升级，解决的是自拍和视频通话的麻烦",
+      "subtitle": "18MP Center Stage 让横竖构图、多人入镜和双机位记录更自然。",
+      "body": "不用刻意调整拿手机的方向，系统会帮你把人和画面处理得更合理。",
+      "items": [
+        {
+          "label": "18",
+          "title": "18MP Center Stage",
+          "body": "支持照片和视频通话的 Center Stage",
+          "tone": "blue"
+        },
+        {
+          "label": "DU",
+          "title": "Dual Capture",
+          "body": "支持前后摄同时录制，适合 vlog 和现场记录",
+          "tone": "green"
+        },
+        {
+          "label": "AF",
+          "title": "Autofocus",
+          "body": "Focus Pixels 自动对焦，自拍和视频更稳",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple Support iPhone 17 Tech Specs"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S09",
+      "pageType": "concept-explain",
+      "slideNumber": 7,
+      "eyebrow": "BATTERY",
+      "title": "续航和充电，决定你一天是不是少焦虑",
+      "subtitle": "iPhone 17 把视频播放、快充和 MagSafe 都放进了日常安全感里。",
+      "items": [
+        {
+          "label": "30h",
+          "title": "视频播放",
+          "body": "最高 30 小时视频播放",
+          "tone": "blue"
+        },
+        {
+          "label": "50%",
+          "title": "有线快充",
+          "body": "约 20 分钟充至 50%",
+          "tone": "green"
+        },
+        {
+          "label": "25W",
+          "title": "MagSafe",
+          "body": "最新 MagSafe 充电器最高 25W",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple iPhone 17 page and FAQ"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S04",
+      "pageType": "checklist",
+      "slideNumber": 8,
+      "eyebrow": "DURABILITY",
+      "title": "耐用性不是卖点装饰，是换机后的长期成本",
+      "subtitle": "屏幕、边框、防水和存储起点共同决定这台手机能用多久。",
+      "items": [
+        {
+          "label": "01",
+          "title": "Ceramic Shield 2",
+          "body": "正面抗刮能力相比 iPhone 16 提升至 3 倍",
+          "tone": "blue"
+        },
+        {
+          "label": "02",
+          "title": "IP68",
+          "body": "IEC 60529 标准下最高 6 米、最长 30 分钟",
+          "tone": "green"
+        },
+        {
+          "label": "03",
+          "title": "铝金属设计",
+          "body": "彩色玻璃背板，五种颜色可选",
+          "tone": "yellow"
+        },
+        {
+          "label": "04",
+          "title": "256GB 起步",
+          "body": "起始容量相比上一代翻倍",
+          "tone": "blue"
+        },
+        {
+          "label": "05",
+          "title": "抗反射涂层",
+          "body": "强光环境下减少屏幕反光干扰",
+          "tone": "green"
+        },
+        {
+          "label": "06",
+          "title": "软件生态",
+          "body": "iOS 与 Apple Intelligence 作为长期使用底座",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple iPhone 17 page; Apple Support Tech Specs"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S08",
+      "pageType": "comparison",
+      "slideNumber": 9,
+      "eyebrow": "CHOICE",
+      "title": "iPhone 17 和 17 Pro，不是同一个购买理由",
+      "subtitle": "标准版更适合日常体验均衡，Pro 更适合长焦、专业视频和持续高性能。",
+      "items": [
+        {
+          "label": "iPhone 17",
+          "title": "日常体验优先",
+          "body": "同样拥有 6.3 英寸 ProMotion 屏幕、18MP Center Stage 前摄、48MP Ultra Wide 和 Apple Intelligence。",
+          "tone": "blue"
+        },
+        {
+          "label": "17 Pro",
+          "title": "专业能力优先",
+          "body": "A19 Pro、Fusion Telephoto、4x/8x 光学变焦、ProRAW/ProRes/Log 等专业能力更完整。",
+          "tone": "green"
+        }
+      ],
+      "sourceNote": "Source: Apple iPhone 17 FAQ"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S19",
+      "pageType": "summary",
+      "slideNumber": 10,
+      "eyebrow": "WHO SHOULD BUY",
+      "title": "这四类用户，最适合先看 iPhone 17",
+      "subtitle": "如果没有明确的长焦和专业视频需求，标准版已经覆盖大多数高频场景。",
+      "items": [
+        {
+          "label": "01",
+          "title": "从旧机升级",
+          "body": "iPhone 13 / 14 / 15 用户会明显感知屏幕、相机、续航和存储升级",
+          "tone": "blue"
+        },
+        {
+          "label": "02",
+          "title": "重视日常拍照",
+          "body": "主摄、超广角、自拍和 Dual Capture 覆盖生活记录",
+          "tone": "green"
+        },
+        {
+          "label": "03",
+          "title": "不想买太重",
+          "body": "177g 机身，比 Pro 系列更轻，日常负担更低",
+          "tone": "yellow"
+        },
+        {
+          "label": "04",
+          "title": "预算更理性",
+          "body": "想要新一代核心体验，但不为专业能力额外付费",
+          "tone": "blue"
+        }
+      ],
+      "sourceNote": "Source: Apple Support Tech Specs; Apple iPhone 17 FAQ"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S04",
+      "pageType": "risk-warning",
+      "slideNumber": 11,
+      "eyebrow": "BEFORE BUYING",
+      "title": "下单前，先把这 3 个边界想清楚",
+      "subtitle": "不是所有人都应该买标准版，关键是知道自己到底用什么。",
+      "items": [
+        {
+          "label": "01",
+          "title": "要不要长焦",
+          "body": "如果经常拍舞台、孩子比赛、旅行远景，Pro 的 Telephoto 更合适",
+          "tone": "red"
+        },
+        {
+          "label": "02",
+          "title": "要不要专业视频",
+          "body": "如果需要 ProRes、Log 或高规格后期，Pro 系列边界更清楚",
+          "tone": "red"
+        },
+        {
+          "label": "03",
+          "title": "容量怎么选",
+          "body": "256GB 适合大多数人，长期视频拍摄用户要认真评估 512GB",
+          "tone": "yellow"
+        }
+      ],
+      "sourceNote": "Source: Apple iPhone 17 FAQ; Apple Support Tech Specs"
+    },
+    {
+      "layout": "teaching-toolkit",
+      "registeredLayout": "S03",
+      "pageType": "qa-closing",
+      "slideNumber": 12,
+      "eyebrow": "CLOSING",
+      "title": "iPhone 17 的价值，是把标准版重新做扎实",
+      "subtitle": "如果你想要稳定、顺滑、好拍、耐用的一台新 iPhone，它已经足够认真。",
+      "body": "接下来只需要确认：你是否真的需要 Pro 的长焦、专业视频和更强持续性能。",
+      "items": [
+        {
+          "label": "Q&A",
+          "title": "问题交流",
+          "tone": "blue"
+        }
+      ],
+      "sourceNote": "Source: Apple official iPhone 17 materials"
+    }
+  ]
+}
