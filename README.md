@@ -150,14 +150,14 @@ Run the example:
 cd tools/ppt-builder-cli
 npm install
 npm run typecheck
-npx tsx src/cli.ts build ../../examples/iphone17/deck-builder-input.guizang-swiss.json --out ../../examples/iphone17/iphone17-demo.pptx
+npx tsx src/cli.ts build ../../examples/iphone17/deck-builder-input.blueprint-swiss.json --out ../../examples/iphone17/iphone17-demo.pptx
 ```
 
 ## Visual System
 
-The builder currently includes a PPTGenJS-native `guizang-swiss` theme:
+The builder currently includes a PPTGenJS-native `blueprint-swiss` theme:
 
-- registered layouts `S01-S22`
+- a reusable library of structured slide layouts
 - editable PPT shapes and text
 - Swiss-style grid discipline
 - IKB blue accent by default
@@ -183,11 +183,7 @@ Current compatibility status:
 
 ## Acknowledgements
 
-The PPT style system in this skill collection is partly inspired by [op7418/guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill), especially its Swiss-style presentation aesthetics and registered layout discipline. This project reimplements the workflow and PPT generation path with portable skills and a PPTGenJS-native builder.
-
-## Safety
-
-This repository should not contain API keys, private tokens, local user memory files, browser cookies, or machine-specific paths. Review the repository before publishing or redistributing modified versions.
+The PPT style system in this skill collection is partly inspired by [op7418/guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill).
 
 ## License
 

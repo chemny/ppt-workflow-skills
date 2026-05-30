@@ -174,7 +174,7 @@ Use ppt-workflow-skills to help me create a 20-minute product briefing deck.
 cd tools/ppt-builder-cli
 npm install
 npm run typecheck
-npx tsx src/cli.ts build ../../examples/iphone17/deck-builder-input.guizang-swiss.json --out ../../examples/iphone17/iphone17-demo.pptx
+npx tsx src/cli.ts build ../../examples/iphone17/deck-builder-input.blueprint-swiss.json --out ../../examples/iphone17/iphone17-demo.pptx
 ```
 
 生成文件：
@@ -185,11 +185,11 @@ examples/iphone17/iphone17-demo.pptx
 
 ## 内置视觉系统
 
-当前 builder 内置了一个 PPTGenJS 原生实现的 `guizang-swiss` 主题。
+当前 builder 内置了一个 PPTGenJS 原生实现的 `blueprint-swiss` 主题。
 
 核心特点：
 
-- 22 个 registered layouts：`S01-S22`
+- 一套可复用的结构化页面布局
 - 所有元素尽量使用可编辑 PPT 形状和文字
 - 瑞士国际主义网格系统
 - 默认 IKB 蓝主色
@@ -219,33 +219,9 @@ PPTX 生成取决于当前平台是否允许：
 
 如果所在平台没有图片生成能力，workflow 应该输出图片提示词或占位说明，而不是假装已经生成图片。
 
-## 示例
-
-仓库内置了一个 iPhone 17 示例输入：
-
-```text
-examples/iphone17/deck-builder-input.guizang-swiss.json
-```
-
-你可以用它测试 PPTX builder 是否正常工作。
-
 ## 致谢
 
-本项目中的部分 PPT 风格设计借鉴了 [op7418/guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill)，尤其是其中的瑞士风格审美和 registered layout 约束思路。
-
-本项目在此基础上，将流程组织为可移植的 skills，并使用 PPTGenJS 原生生成可编辑 PPTX。
-
-## 安全说明
-
-发布和二次分发前，请确认仓库中没有：
-
-- API key
-- 私有 token
-- 本地 memory 文件
-- 浏览器 cookie
-- 机器专属绝对路径
-- 用户私有素材
-- 生成出来的临时 PPTX、截图或图片
+本项目中的部分 PPT 风格设计借鉴了 [op7418/guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill)。
 
 ## License
 
