@@ -1,5 +1,7 @@
 # PPT Workflow Skills
 
+中文 | [English](./README.md)
+
 一组用于完整制作 PPT 的 AI Agent Skills，覆盖目标澄清、大纲结构、页面文案、可编辑 PPTX 生成、最终检查和汇报演练。
 
 它不是一个独立应用，也不是一个单纯的 PPT 生成脚本，而是一套可以在 Codex、Claude Code、OpenClaw 等 agent 环境中使用的 PPT 制作工作流。
