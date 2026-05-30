@@ -2,7 +2,7 @@
 
 An end-to-end AI agent skill collection for creating better PowerPoint decks: goal discovery, slide structure, slide writing, editable PPTX generation, final review, and presentation practice.
 
-[Chinese](./README.zh.md) | English
+[中文](./README.zh.md) | English
 
 Compatible with Codex, Claude Code, and OpenClaw.
 
