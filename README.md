@@ -1,26 +1,24 @@
 # PPT Workflow Skills
 
-一组用于完整制作 PPT 的 AI Agent Skills，覆盖目标澄清、大纲结构、页面文案、可编辑 PPTX 生成、最终检查和汇报演练。
-
 An end-to-end AI agent skill collection for creating better PowerPoint decks: goal discovery, slide structure, slide writing, editable PPTX generation, final review, and presentation practice.
 
-[中文说明](./README.zh.md) | English
+[Chinese README](./README.zh.md)
 
 Compatible with Codex, Claude Code, and OpenClaw.
 
-## 为什么做这个项目 / Why This Exists
+## Why This Exists
 
-很多 AI 做 PPT 的问题不是“不会生成文件”，而是前面的判断没有做好：
+Many AI-generated PPT decks fail before the file is created:
 
-- 不清楚这份 PPT 到底讲给谁。
-- 不清楚用户希望听众听完之后做什么。
-- 大纲像目录，不像真正能讲清楚问题的结构。
-- 每页只有标题，没有正文、布局、组件、图片和数据说明。
-- 最后生成的 PPT 虽然可编辑，但风格不统一、信息密度低、图片不服务内容。
+- The target audience is unclear.
+- The desired audience action is unclear.
+- The outline looks like a table of contents instead of a real presentation structure.
+- Slides only have titles, without body copy, layout intent, components, images, or data requirements.
+- The final PPTX may be editable, but the visual style is inconsistent, the information density is weak, and images do not support the content.
 
 This project treats PPT creation as a workflow instead of a one-shot generation task. It separates goal discovery, structure, writing, design/build, review, and rehearsal into explicit skills so each phase can be improved independently.
 
-## 核心能力 / Core Capabilities
+## Core Capabilities
 
 - Clarify the PPT goal, target audience, reference materials, constraints, and success criteria.
 - Research the topic before creating the structure.
@@ -33,22 +31,22 @@ This project treats PPT creation as a workflow instead of a one-shot generation 
 ## Workflow
 
 ```text
-User Intent
+User intent
   ↓
 1. ppt-goal-setting
-   Clarify topic, audience, goal, time, constraints, references
+   Clarify topic, audience, goal, time, constraints, and references
   ↓
 2. ppt-slide-structure
-   Research topic, choose scenario framework, produce slide outline
+   Research the topic, choose a scenario framework, and produce the slide outline
   ↓
 3. ppt-slide-writing
-   Produce final slide titles, body copy, components, layout intent, image prompts
+   Produce final slide titles, body copy, components, layout intent, and image prompts
   ↓
 4. ppt-deck-builder
-   Select visual system, generate/editable PPTX, apply transitions
+   Select the visual system, generate editable PPTX, and apply transitions
   ↓
 5. ppt-final-check
-   Check logic, facts, data, language, layout, visual consistency
+   Check logic, facts, data, language, layout, and visual consistency
   ↓
 6. ppt-presentation-practice
    Rehearse questions, speaker notes, objections, and responses
@@ -115,6 +113,28 @@ After installation, start a fresh agent session and ask:
 Use ppt-workflow-skills to help me create a 20-minute product briefing deck.
 ```
 
+## Usage
+
+Run the full workflow when you are starting from scratch:
+
+```text
+Use ppt-workflow-skills to create a one-hour tutorial deck about ChatGPT Images for AI learners.
+```
+
+Use a specific phase when you already have partial materials:
+
+```text
+Use ppt-slide-writing to turn this outline into slide-level copy, layout intent, and image prompts.
+```
+
+```text
+Use ppt-deck-builder to generate an editable PPTX from this slide content specification.
+```
+
+```text
+Use ppt-final-check to review this deck before delivery.
+```
+
 ## Optional PPTX Builder
 
 The text workflow works without extra tools. Editable PPTX generation uses the included TypeScript builder.
@@ -141,6 +161,7 @@ The builder currently includes a PPTGenJS-native `guizang-swiss` theme:
 - editable PPT shapes and text
 - Swiss-style grid discipline
 - IKB blue accent by default
+- large lightweight titles and strong whitespace
 - proportional image placement
 - manual keyboard/click slide advance
 
