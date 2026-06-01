@@ -33,13 +33,18 @@ Prefer a complete delivery package:
 ppt-delivery-package/
 ├── deck.pptx
 ├── project-brief-v4.md
+├── v3-slide-spec.json
 ├── deck-builder-input.json
-└── asset-log.json
+├── asset-log.json
+├── asset-manifest.json
+├── design-lock.json
+└── pptx-quality-report.json
 ```
 
 Minimum for content/source check:
 
 - `project-brief-v4.md`
+- `v3-slide-spec.json` or equivalent v3 slide spec section
 - `deck-builder-input.json`
 - `asset-log.json`
 
@@ -49,14 +54,34 @@ Optional for rendered visual final check, only when the user requested preview/e
 
 If preview images are missing, do not automatically fail the deck. Run source-level checks from `deck-builder-input.json`, asset log, and v4 brief. Mark rendered visual QA as incomplete only when the user explicitly requested rendered previews/screenshots/PDF, when the delivery requirement demands visual render verification, or when source-level checks cannot reasonably evaluate the risk.
 
+If `pptx-quality-report.json` is available, read it before manual review. If it is missing and the local Node.js builder is available, run:
+
+```bash
+cd tools/ppt-builder-cli
+npx tsx src/cli.ts check <deck-builder-input.json> --pptx <deck.pptx> --out <pptx-quality-report.json>
+```
+
+Treat checker `error` issues as potential `Blocker` or `Major` findings unless the user explicitly accepts the risk.
+
+For project-mode decks, prefer the project-level review command when the local builder is available:
+
+```bash
+cd tools/ppt-builder-cli
+npx tsx src/cli.ts review-project <project-dir> --out
+```
+
+This reads `03-production/slide-production-spec.json`, `05-build/deck-builder-input.json`, `04-design/asset-plan.json`, `04-design/design-system.json`, build reports, and the PPTX under `05-build/`, then writes `06-review/quality-report.json`.
+
+Use `v3-slide-spec.json` as the reference for whether Skill 4 preserved page intent, copy, required components, visual purpose, and source requirements. If the PPTX/build input diverges from v3 without an explicit reason, assign the issue to `ppt-deck-builder`. If v3 itself is incomplete or wrong, assign it to `ppt-slide-writing` or `ppt-slide-structure` depending on ownership.
+
 ## Responsibility Boundary
 
 Assign issues to the correct owner:
 
 - `ppt-goal-setting`: purpose, audience, scenario, delivery time, or success criteria.
 - `ppt-slide-structure`: narrative sequence, chapters, page order, slide count logic, page core messages.
-- `ppt-slide-writing`: final copy, examples, data/source needs, image descriptions, material status, page content specification.
-- `ppt-deck-builder`: theme, layout, typography, images, chart rendering, editability, playback/manual advance, animation settings, optional preview generation, PPTX build quality.
+- `ppt-slide-writing`: final copy, examples, data/source needs, image descriptions, material status, slide-spec completeness.
+- `ppt-deck-builder`: theme, layout registry mapping, theme-token application, typography, images, chart rendering, editability, playback/manual advance, animation settings, optional preview generation, PPTX build quality.
 - `ppt-final-check`: final prioritization, severity grading, delivery gate, and recheck result.
 
 Do not fix upstream problems silently. Generate a fix request for the owner skill.
@@ -122,16 +147,17 @@ If multiple owner skills are involved, group fix requests by owner.
 
 1. Identify available files in the delivery package.
 2. Check whether rendered visual preview coverage was requested or required.
-3. Read v4 brief, builder input, and asset log.
-4. Inspect contact sheet and slide previews when available; otherwise use source-level layout and asset checks.
-5. Check playback: manual click/keyboard advance should be enabled; animation policy should be recorded and restrained.
-6. Run eight-dimension checks.
-7. Assign severity and owner skill for each issue.
-8. Calculate score.
-9. Decide `PASS`, `FAIL`, or `CONDITIONAL_PASS`.
-10. If `FAIL`, generate fix request and stop forward progression; route back to the owner skill for repair, then rerun final check.
-11. If `CONDITIONAL_PASS`, list remaining conditions and do not call it final delivery-ready unless the user accepts those risks.
-12. If `PASS`, allow handoff to `ppt-presentation-practice`.
+3. In project mode, run or read `logs/final-review-report.json`.
+4. Read v3 slide spec, v4 builder input, asset manifest, design lock, layout mapping, and quality report.
+5. Inspect contact sheet and slide previews when available; otherwise use source-level layout and asset checks.
+6. Check playback: manual click/keyboard advance should be enabled; animation policy should be recorded and restrained.
+7. Run eight-dimension checks.
+8. Assign severity and owner skill for each issue.
+9. Calculate score.
+10. Decide `PASS`, `FAIL`, or `CONDITIONAL_PASS`.
+11. If `FAIL`, generate fix request and stop forward progression; route back to the owner skill for repair, then rerun final check.
+12. If `CONDITIONAL_PASS`, list remaining conditions and do not call it final delivery-ready unless the user accepts those risks.
+13. If `PASS`, allow handoff to `ppt-presentation-practice`.
 
 ## Confirmation Gate
 

@@ -1,0 +1,117 @@
+{
+  "version": "0.2",
+  "meta": {
+    "title": "Diagram First Sample",
+    "subtitle": "Mermaid-visible slide spec test",
+    "audience": "PPT workflow builders",
+    "scenario": "renderer validation",
+    "durationMinutes": 5,
+    "language": "zh-CN"
+  },
+  "writingStrategy": {
+    "audienceNeed": "确认 Mermaid 能作为可见主视觉进入 PPTX。",
+    "narrativeSpine": ["输入能力", "聚合价值", "用户收益"],
+    "tone": "清晰、克制、可验证",
+    "evidenceRules": ["示例只验证渲染，不表达事实结论"],
+    "copyRules": ["标题一行", "节点短文本", "解释放在 subtitle/body"]
+  },
+  "designDirection": {
+    "recommendedThemeFamily": "blueprint-swiss",
+    "recommendedStyleTemplate": "blueprint-swiss",
+    "visualTone": "structured editorial diagram",
+    "pageDensity": "medium",
+    "preferredLayoutComponents": ["diagram-first", "mermaid-diagram"],
+    "imageStyle": "none",
+    "chartTableStyle": "native",
+    "avoid": ["decorative image", "hidden supporting diagram"]
+  },
+  "slides": [
+    {
+      "slideNumber": 1,
+      "sourceOutlineId": "diagram-slide-1",
+      "pageType": "concept-explain",
+      "title": "座舱价值怎么形成",
+      "subtitle": "把三个输入能力汇聚成一个用户能感知的结果。",
+      "coreMessage": "复杂能力需要被翻译成用户价值。",
+      "pageConclusion": "座舱价值不是功能堆叠，而是降低使用成本。",
+      "audienceQuestion": "这些功能到底对我有什么用？",
+      "pageRhythm": "anchor",
+      "visibleBody": ["座舱价值不是功能堆叠，而是降低使用成本。"],
+      "supportingDetails": ["本页用于验证 diagram-first 能把 Mermaid 转成可见 PPT 原生图解。"],
+      "speakerNote": "先读左侧三个输入，再落到右侧结果。",
+      "transition": "下一页进入具体案例。",
+      "layout": {
+        "intent": "diagram-first value formation map",
+        "recommendedLayout": "diagram-first",
+        "contentZones": ["title", "subtitle", "diagram canvas", "source note"],
+        "textVisualRatio": "30:70",
+        "readingOrder": ["title", "subtitle", "left input nodes", "right value node"],
+        "densityRule": "one primary diagram, four concise nodes",
+        "visualPolicy": "svg_component"
+      },
+      "visualStrategy": {
+        "needed": true,
+        "primaryVisualType": "mermaid-diagram",
+        "secondaryVisualType": "ppt-native-component",
+        "decisionReason": "This page explains a logic relationship, not a realistic scene. Mermaid is better for structure than an AI-generated image.",
+        "audienceValue": "The audience can see how three cockpit capabilities converge into one user-side value.",
+        "aiImageUse": {
+          "use": false,
+          "reason": "An AI-generated cockpit scene would add atmosphere but would not clarify the convergence logic."
+        },
+        "mermaidUse": {
+          "use": true,
+          "reason": "The slide needs a visible convergence diagram.",
+          "diagramType": "flowchart",
+          "expectedOutput": "Three input nodes converge into one value node."
+        },
+        "nativeComponentUse": {
+          "use": true,
+          "reason": "The PPTX renderer should keep the nodes and labels editable.",
+          "componentTypes": ["mermaid-diagram", "native-diagram-fallback"]
+        },
+        "fallback": "Use PPT-native boxes and connectors if Mermaid SVG rendering is unavailable."
+      },
+      "components": [],
+      "componentPlan": [
+        {
+          "id": "cockpit-value-convergence",
+          "type": "mermaid-diagram",
+          "purpose": "show three cockpit capability inputs converging into one user value",
+          "content": [
+            { "label": "输入 1", "text": "信息更清楚", "icon": "monitor" },
+            { "label": "输入 2", "text": "操作更顺手", "icon": "cursor" },
+            { "label": "输入 3", "text": "场景更连贯", "icon": "route" },
+            { "label": "结果", "text": "使用成本降低", "icon": "check" }
+          ],
+          "rendering": "mermaid-svg",
+          "priority": "primary",
+          "fallback": "Use four editable PPT-native nodes with connector lines."
+        }
+      ],
+      "iconPlan": null,
+      "chartPlan": null,
+      "diagramPlan": {
+        "type": "mermaid-diagram",
+        "purpose": "show how three cockpit capabilities converge into one user value",
+        "syntax": "flowchart LR\nA[信息更清楚] --> D[使用成本降低]\nB[操作更顺手] --> D\nC[场景更连贯] --> D",
+        "aspectRatio": "16:9",
+        "rendering": "mermaid-svg",
+        "relationshipToSlideMessage": "The diagram explains how separate cockpit capabilities become one user-side value.",
+        "fallback": "Use three editable input nodes converging into one value node"
+      },
+      "visual": {
+        "necessity": "needed",
+        "role": "primary diagram",
+        "message": "Three inputs converge into one value.",
+        "type": "native-diagram",
+        "assetId": "",
+        "prompt": null,
+        "fallback": "PPT-native convergence diagram"
+      },
+      "requiredAssets": [],
+      "dataSourceRequirements": [],
+      "riskFlags": []
+    }
+  ]
+}

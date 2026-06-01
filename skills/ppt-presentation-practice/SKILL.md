@@ -9,6 +9,8 @@ Use this skill after the PPT has passed `ppt-final-check` and the user needs to 
 
 This skill does not build or final-check the PPT. It helps the user turn the finished and approved deck into a confident live presentation.
 
+For V2 script modes, read `../../references/speaker-script.md`. This skill owns `07-practice/practice-report.md` and may create `07-practice/full-script.md` only when the user asks for a full script or the scenario clearly requires it.
+
 This skill is optional in the full PPT workflow. Do not enter it automatically after `ppt-final-check` unless the user has asked for rehearsal, speaker notes, Q&A preparation, live delivery support, or a similar presentation-practice output. After v5 PASS, offer this skill as an optional next step.
 
 ## Core Job
@@ -25,6 +27,7 @@ Given a final-check-approved PPT package, produce:
 - answer strategies and high-EQ response wording
 - emergency talking points
 - rehearsal plan
+- optional outline script or full script when requested
 - `PPT Presentation Practice Report`
 
 The central question is: can the presenter explain this approved PPT clearly, persuasively, and calmly in the real scenario?
@@ -75,6 +78,15 @@ If v5 is available, check gate status before producing practice materials.
 
 If the presentation duration is missing, infer a provisional timing plan from slide count and scenario, then mark it as an assumption.
 
+For project-folder workflows, prefer the reusable project command:
+
+```bash
+cd tools/ppt-builder-cli
+npx tsx src/cli.ts practice-project <project-dir> --out
+```
+
+This reads `03-production/slide-production-spec.json` and `06-review/quality-report.json`, then writes `07-practice/practice-report.md` and `07-practice/practice-report.json`.
+
 ## Practice Modes
 
 Choose one or more modes based on the user's scenario.
@@ -90,6 +102,16 @@ Choose one or more modes based on the user's scenario.
 | `emergency-response` | User worries about live uncertainty | fallback wording, time cuts, unknown-question handling |
 
 Do not default to a full word-for-word script unless the user asks. Prefer speaker cards that are easier to rehearse and less stiff.
+
+Script modes:
+
+| Mode | Use when | Output |
+|---|---|---|
+| `speaker_cards` | default | slide objective, key sentence, talking points, transition, caution |
+| `outline_script` | teaching, sharing, launch, guided talk | opening, section transitions, slide-level spoken draft, closing |
+| `full_script` | formal speech, recording, new presenter, launch event | complete word-for-word script |
+
+If the user asks for 演讲稿, 逐字稿, 主持稿, 发言稿, 录课稿, or "what should I say", choose `outline_script` or `full_script` based on the scenario and clarify only if the difference materially matters.
 
 ## Audience Role Simulation
 
@@ -229,6 +251,8 @@ These should be natural spoken lines, not corporate slogans.
 12. Output `PPT Presentation Practice Report`.
 
 If final gate status is not PASS, stop formal rehearsal and recommend returning to the relevant prior skill before rehearsal.
+
+In project mode, run or read `07-practice/practice-report.json` after the command completes. If the report status is `BLOCKED`, do not create formal speaker notes.
 
 ## Output Format
 

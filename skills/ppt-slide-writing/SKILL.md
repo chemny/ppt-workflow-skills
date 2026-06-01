@@ -5,7 +5,9 @@ description: Use this skill after PPT structure is defined. It turns PPT Project
 
 # PPT Slide Writing
 
-Use this skill to turn `PPT Project Brief v2: Slide Structure` into a complete `PPT Project Brief v3: Slide Content Specification`.
+Use this skill to turn `PPT Project Brief v2: Slide Structure` into a complete `PPT Project Brief v3: Slide Spec`.
+
+For V2 project-mode runs, read `../../references/v2-architecture.md`, `../../references/visual-component-registry.md`, and `../../references/source-intake.md`. This skill owns `03-production/slide-production-spec.json` and `03-production/slide-copy.md`.
 
 This skill is not just copywriting. It must produce the page-level content and design input that `ppt-deck-builder` needs to generate a real deck.
 
@@ -20,16 +22,22 @@ Given `PPT Project Brief v2`, produce:
 - page-by-page final titles
 - page-by-page visible body copy
 - page structure and information hierarchy
+- page rhythm: `anchor`, `dense`, or `breathing`
 - page layout blueprint, layout intent, and component suggestions
+- component plan, icon plan, chart plan, and Mermaid/diagram plan
 - native component specifications for every editable diagram/card/checklist/table/flow built by Skill 4
 - image, screenshot, chart, table, diagram, icon, or generated-image suggestions
 - visual necessity, visual role, and complete image-generation prompts when images are needed
 - asset status and fallback strategy
 - data/source requirements
 - speaker notes and transitions
-- `PPT Project Brief v3: Slide Content Specification`
+- `PPT Project Brief v3: Slide Spec`
 
 By the end of this skill, the deck's content should be clear enough that Skill 4 does not have to invent what each page means.
+
+When project mode is used, write the structured handoff as `03-production/slide-production-spec.json` according to `../../references/slide-spec.md`. The Markdown brief is for human reading; `slide-production-spec.json` is the source of truth for Skill 4.
+
+For the detailed v2-to-v3 generation workflow, read `../../references/skill3-slide-spec-generation.md` when project mode, long decks, source-heavy decks, generated assets, or PPTX generation is requested.
 
 ## Responsibility Boundary
 
@@ -45,6 +53,9 @@ It should define:
 - how the page should be arranged: columns, grids, hero layout, text/visual ratio, content zones, and visual hierarchy
 - what native PPT components must be built when the slide does not use a raster image
 - what design direction Skill 4 should follow
+- which component, icon, chart, or Mermaid diagram should be used and why
+- which single visual object is primary on the page, and which elements are only supporting
+- whether each visual need is better served by AI-generated image, Mermaid, PPT-native component, real asset/screenshot, chart/table, or no visual
 
 It should not define exact pixel positions, final font sizes, final colors, or PPTX implementation details. Those belong to `ppt-deck-builder`.
 
@@ -61,6 +72,7 @@ Preserve from v2:
 - page function
 - core message
 - timing and capacity plan
+- page rhythm
 
 Skill 3 may rewrite page titles and visible copy, refine information hierarchy, specify layout blueprint, and define material/visual needs. It may not add, delete, merge, split, reorder, or replace slides.
 
@@ -81,6 +93,7 @@ Useful fields:
 - page core messages
 - evidence planning
 - material needs
+- research brief and citations when available
 - structural risks
 
 If v2 is incomplete but enough information exists, proceed with explicit assumptions.
@@ -98,14 +111,20 @@ If v2 is incomplete but enough information exists, proceed with explicit assumpt
 9. Skill 3 gives content-driven layout intent; Skill 4 turns it into final visual design.
 10. The deck must have narrative momentum. Each slide should make the next slide feel necessary.
 11. Slide titles should be hook-driven and conclusion-led. Avoid plain labels like "Overview", "Prompt", or "Risk" unless paired with a strong claim.
-12. For sharing/tutorial decks, do not write like a manual. Write like a clear live explanation that gives the audience a reason to continue.
-13. Images exist to make the content easier to understand. Do not add images for decoration or "visual richness".
-14. If a generated image is recommended, the slide spec must include a complete generation prompt tied to the slide's title, body copy, and conclusion.
-15. Cover pages should not default to generated images. For professional/product/tutorial decks, prefer high-end typography, geometric composition, product/capability signals, and clean negative space unless a meaningful visual is required.
-16. Copy must be concise, concrete, and high-density. Avoid generic motivational wording, vague claims, and low-signal labels.
-17. Every slide must include a page layout blueprint detailed enough for Skill 4 to build without guessing.
-18. Convert Skill 2 structure language into audience-facing copy. Do not expose internal outline labels as slide titles or body copy.
-19. Every `build_native` visual must include a native component specification. Do not write only "native diagram", "checklist", "practice card", or "flow chart".
+12. Body slide titles must be one concise line. Prefer <= 18 Chinese chars; 19-22 chars is near capacity; > 22 chars must be rewritten. Move nuance into subtitle, body copy, speaker notes, or component text. Cover pages are the exception and may use deliberate two-line typography.
+13. For sharing/tutorial decks, do not write like a manual. Write like a clear live explanation that gives the audience a reason to continue.
+14. Images exist to make the content easier to understand. Do not add images for decoration or "visual richness".
+15. If a generated image is recommended, the slide spec must include a complete generation prompt tied to the slide's title, body copy, and conclusion.
+16. Cover pages should not default to generated images. For professional/product/tutorial decks, prefer high-end typography, geometric composition, product/capability signals, and clean negative space unless a meaningful visual is required.
+17. Copy must be concise, concrete, and high-density. Avoid generic motivational wording, vague claims, and low-signal labels.
+18. Every slide must include a page layout blueprint detailed enough for Skill 4 to build without guessing.
+19. Convert Skill 2 structure language into audience-facing copy. Do not expose internal outline labels as slide titles or body copy.
+20. Every `build_native` visual must include a native component specification. Do not write only "native diagram", "checklist", "practice card", or "flow chart".
+21. Every slide should include `pageRhythm`, `componentPlan`, and `diagramPlan` fields. Use Mermaid only when it clarifies a real flow, architecture, journey, or decision tree.
+22. Every slide should have one primary visual object. Do not stack image, Mermaid, KPI, cards, and checklist on the same page unless the layout explicitly reserves separate roles.
+23. The visual strategy must be renderable. If `primaryVisualType` is selected, the matching prompt, asset, diagram, chart, or component content must also be present.
+24. For brand events, parent-child activities, public launches, offline campaigns, product experience talks, and other scene-led decks, actively evaluate AI-generated scene images. Do not default every page to native components just because images can be generic. Use AI images when they create concrete context, emotional atmosphere, product experience, or audience empathy that editable components cannot provide.
+25. AI images and PPT-native components should work together: images create scene and feeling; editable components carry rules, numbers, labels, and explanations.
 
 ## Structure-To-Audience Copy Translation
 
@@ -234,6 +253,58 @@ Avoid vague layout language:
 - "Add a nice visual."
 - "图文结合."
 
+## Visual Strategy And Component Rules
+
+Before writing page-level visual details, decide the primary visual path:
+
+```text
+real source needed -> real asset or screenshot
+data is the point -> chart/table
+logic relationship is the point -> Mermaid or native diagram
+editable teaching object is the point -> PPT-native component
+scene/emotion/premium atmosphere is the point -> AI-generated image
+typography is enough -> no visual
+```
+
+Use `../../references/visual-component-registry.md` for page-type defaults and component requirements.
+
+For each slide, write:
+
+- `visualStrategy`: the reason for the visual path and audience value.
+- `layout`: where the primary visual object appears and how it is read.
+- `componentPlan`: exact cards, rows, labels, icons, prompt fields, checklist items, or KPI content when a native component is used.
+- `iconPlan`: icon targets and meaning when icons are part of the component.
+- `diagramPlan`: Mermaid syntax and fallback when Mermaid is used.
+- `chartPlan`: chart/table message, data shape, and source requirement when data is used.
+- `visual.prompt`: full image-generation prompt only when the slide needs an AI-generated image.
+- `requiredAssets`: real asset or screenshot requirement when authenticity matters.
+
+Do not write:
+
+- "Use an icon card" without icon/card content.
+- "Use Mermaid" without syntax and fallback.
+- "Generate a visual" without prompt, aspect ratio, subject, scene, composition, and avoid-list.
+- "Use screenshot" without asset/source instruction and callout plan.
+- "Add background graphics" unless the background reinforces the page hierarchy.
+
+Page-type defaults:
+
+- Cover and closing: typography/native background first for professional/tutorial decks; scene-led brand events may use a generated hero image when the scene directly explains the occasion and audience.
+- Objectives, capability maps, prompt templates, exercises, checklists: PPT-native components.
+- Workflows, architecture, decision trees, journeys: Mermaid or native diagram.
+- Real UI teaching: screenshot with callouts.
+- Data proof: chart/table with source.
+- Product or scenario atmosphere: real asset or AI-generated image.
+
+Scenario-led image rules:
+
+- Brand event / parent-child / offline campaign: at least cover, opening, or one experience page should consider an AI-generated scene image unless the user forbids images or provides real photos.
+- Product launch / sales experience: use real product assets first; use AI-generated environment or lifestyle images only when they do not fake product facts.
+- Teaching / tutorial: use AI-generated images only for examples, before/after outputs, or scenes that make an abstract task easier to understand.
+- Business report: avoid AI scene images unless they explain a user scenario; prefer charts, evidence, and real materials.
+
+If a scene-led deck contains no generated or real images, Skill 3 must explicitly explain why components alone are enough.
+
 ## Native Component Specification Rules
 
 If `Preferred visual type` or an asset status is `build_native`, Skill 3 must describe what Skill 4 should build with editable PPT objects.
@@ -296,6 +367,45 @@ Examples:
 ```
 
 If a native component cannot be specified clearly, the slide content is not ready for Skill 4.
+
+## V2 Component Planning
+
+Use `../../references/visual-component-registry.md` to decide components.
+
+For each slide, specify:
+
+- `pageRhythm`: `anchor`, `dense`, or `breathing`
+- `visualStrategy`: the page-level choice between AI-generated image, real asset, screenshot, Mermaid, PPT-native component, chart/table, or no visual
+- `componentPlan`: native components such as icon cards, KPI cards, process flow, matrix, checklist, journey map, screenshot callout, or prompt box
+- `diagramPlan`: Mermaid or native diagram plan when a diagram is needed
+- `iconPlan`: icon role, icon family, icon labels, and fallback
+- `chartPlan`: chart/table plan when factual data needs visualization
+
+Do not add components just to fill empty space. The component must help the audience understand, compare, remember, decide, or act.
+
+Use `visualStrategy` before writing `componentPlan`, `diagramPlan`, or image prompts:
+
+- Use AI-generated images for real scenes, atmosphere, premium feel, product-style scenarios, or meaningful illustration.
+- Use Mermaid for structure: workflows, architecture, decisions, journeys, relationships, and logic maps.
+- Use PPT-native components for editable cards, KPI rows, matrices, steps, checklists, prompt boxes, and icon groups.
+- Use real assets or screenshots when authenticity matters.
+- Use chart/table when the claim is data-driven.
+- Use no visual when typography and layout are enough.
+
+For event and campaign decks, split responsibility clearly:
+
+- AI-generated image: scene, mood, people, environment, product experience, attention reset.
+- PPT-native component: task card, coupon, checklist, route, KPI, rule, label, and anything that must stay editable.
+- Mermaid/native diagram: journey, process, decision, or relationship.
+- Real asset: official product, real venue, real screenshot, or user-provided campaign material.
+
+Do not put important rules, coupon text, brand claims, QR codes, or data inside generated images. Keep them editable in PPT.
+
+Mermaid is acceptable for local diagrams, but it must include syntax, purpose, aspect ratio, relationship to the slide message, and fallback. Do not use Mermaid for factual charts or decorative illustrations.
+
+If the Mermaid diagram is expected to be visible on the page, make it the primary visual/component for that slide or explicitly describe how it shares space with the primary component. Do not add Mermaid as a hidden supporting note under an already full icon-card, KPI, matrix, or checklist slide.
+
+For slide-spec project mode, use `layout.recommendedLayout = "diagram-first"` when the diagram is the main visual. Keep the title short, put the explanation in subtitle/body, and keep node labels concise enough to fit inside diagram boxes.
 
 ## Cover Writing And Layout Rules
 
@@ -467,6 +577,14 @@ For generated images, include:
 - what must not appear
 - factuality/copyright risk
 
+Generated-image selection rules:
+
+- Use a generated image when the audience needs to feel the scene before reading rules.
+- Use a generated image when a realistic or polished scene makes the slide easier to understand than icons alone.
+- Do not use a generated image when the page's main job is a number, checklist, matrix, exact UI operation, or source-dependent product fact.
+- If using an AI image, reserve a real image slot in the layout blueprint and define how much page area it gets.
+- If an AI image is only decorative, remove it.
+
 Also include a complete prompt specification:
 
 ```markdown
@@ -499,7 +617,42 @@ Do not ask Skill 4 to generate:
 - text-heavy images that should be editable PPT text
 - abstract mood images that do not explain, demonstrate, compare, prove, navigate, or focus the slide
 
-## Required Slide Spec
+## Structured Slide Spec Contract
+
+For new or rebuildable decks, use `../../references/slide-spec.md` as the primary Skill 3 to Skill 4 contract.
+
+Use `../../references/skill3-slide-spec-generation.md` as the operating guide for converting v2 structure into the contract.
+
+Rules:
+
+- Produce one `slides[]` entry for every v2 slide.
+- Preserve v2 slide count, order, chapter structure, page function, and case selection.
+- Use stable `pageType` values from `slide-spec.md`.
+- Use `layout.recommendedLayout` values from `../../references/layout-registry.md`.
+- Define every component with type, role, structure, content, editability, and rendering method.
+- Use `svg-component` only for local visual components such as flow charts, timelines, matrices, loops, and system diagrams.
+- Do not use whole-slide SVG as the default output strategy.
+- If `visual.type` is `generated-image`, include the full image prompt object.
+- If `visual.type` is `none`, explain why the slide does not need an image.
+- Represent missing materials in `requiredAssets` so Skill 4 can update `asset-manifest.json`.
+- Put the exact text that Skill 4 must render into `visibleBody` and `components[].content`; do not hide component text only in prose.
+- Put source-dependent claims into `dataSourceRequirements[]`; do not let them remain only in speaker notes.
+
+Skill 3 output should include both:
+
+1. A human-readable Markdown brief for review.
+2. A machine-readable `slide-spec.json` object for Skill 4.
+
+If the local TypeScript builder is available, validate the JSON before handoff:
+
+```bash
+cd tools/ppt-builder-cli
+npx tsx src/cli.ts validate-slide-spec <path-to-v3-slide-spec.json>
+```
+
+If validation fails, fix the Skill 3 output before calling `ppt-deck-builder`.
+
+## Required Human-Readable Slide Spec
 
 For every slide, output this structure:
 
@@ -632,15 +785,17 @@ In `standard` mode, batching is for readability, not a confirmation gate. After 
 7. If a generated image is needed, write the full prompt specification.
 8. Specify material status, fallback strategy, data/source requirements, and risks.
 9. Add speaker notes and transitions.
-10. Summarize material collection plan and Skill 4 handoff.
+10. Build the structured `slide-spec.json` contract from the completed page specs.
+11. Validate `slide-spec.json` when the local builder is available.
+12. Summarize material collection plan and Skill 4 handoff.
 
 ## Handoff And Confirmation Policy
 
 Step 3 is not a default confirmation gate in `standard` mode.
 
-After producing `PPT Project Brief v3: Slide Content Specification`:
+After producing `PPT Project Brief v3: Slide Spec`:
 
-- If all required page specs, layout blueprints, material decisions, and image/native component instructions are complete, continue automatically to `ppt-deck-builder`.
+- If all required page specs, layout blueprints, material decisions, image/native component instructions, and `slide-spec.json` fields are complete, continue automatically to `ppt-deck-builder`.
 - Do not ask the user to approve every slide's copy before building unless the user requested step-by-step control.
 - In `deep` mode, show only the first 3-5 representative slide specs for confirmation before building. Use this to validate language style, page density, layout intent, and visual strategy.
 - If Skill 3 discovers that v2 structure is wrong, do not silently rewrite it. Route back to `ppt-slide-structure`.
@@ -649,7 +804,7 @@ After producing `PPT Project Brief v3: Slide Content Specification`:
 ## Output Format
 
 ```markdown
-## PPT Project Brief v3: Slide Content Specification
+## PPT Project Brief v3: Slide Spec
 
 ### Writing Strategy
 - Audience:
@@ -731,9 +886,24 @@ After producing `PPT Project Brief v3: Slide Content Specification`:
 | Slide | Claim / data / product behavior | Source needed | Status | Risk |
 |---:|---|---|---|---|
 
+### Structured Handoff: slide-spec.json
+
+JSON object:
+{
+  "version": "0.2",
+  "meta": {},
+  "writingStrategy": {},
+  "designDirection": {},
+  "slides": []
+}
+
+In V2 project mode, save this JSON as `03-production/slide-production-spec.json`.
+
 ### Handoff To ppt-deck-builder
 - Theme recommendation:
 - Required layouts:
+- Slide spec file:
+- Slide spec validation result:
 - Required generated images:
 - Required image prompts:
 - Required real screenshots:

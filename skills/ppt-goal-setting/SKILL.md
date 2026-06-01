@@ -7,6 +7,8 @@ description: Use this skill whenever the user wants to start a PPT, PowerPoint, 
 
 Use this skill before creating a slide structure, writing slide copy, designing visuals, or generating a PPTX.
 
+For V2 project-mode runs, read `../../references/v2-architecture.md` and `../../references/source-intake.md` before handling source-heavy inputs. V2 keeps the same user-facing skill, but the preferred artifacts are `00-intake/user-brief.md`, `00-intake/source-index.json`, `00-intake/source-summary.md`, and `00-intake/citations.json`.
+
 The goal is to help the user move from "I want to make a PPT about X" to a clear presentation direction:
 
 - what the deck is really for
@@ -15,6 +17,7 @@ The goal is to help the user move from "I want to make a PPT about X" to a clear
 - what intent sits behind the user's stated request
 - what the user wants to do and what broad outcome they want to reach
 - what constraints and materials already exist
+- which source materials should be registered for later structure, copy, design, and review
 - what the next PPT workflow step should use
 
 This skill is a thinking partner, not a form.
@@ -30,6 +33,7 @@ The workflow is:
 ```text
 user describes the PPT
 -> inspect any provided materials
+-> register source material when project mode is useful
 -> reflect your understanding
 -> diagnose the real job of the deck
 -> identify the most important missing decision
@@ -52,6 +56,7 @@ Use this skill to:
 - build an audience profile that guides language depth and explanation style
 - surface hidden success criteria
 - extract useful context from early materials
+- create or update the source package for project-mode workflows
 - proactively ask for reference materials, official websites, prior decks, screenshots, documents, or links that can improve the deck
 - guide the user one step at a time
 - use choice-based prompts that help the user express their thinking instead of answering a rigid form
@@ -89,12 +94,24 @@ The user may provide:
 
 If files or long materials are provided, inspect or summarize them before diagnosing. Extract only what matters for goal-setting; leave deep analysis for later skills.
 
+For project-mode decks, do not leave files as loose chat context. Register them according to `../../references/source-intake.md`.
+
+Minimum source package:
+
+```text
+00-intake/
+├── user-brief.md
+├── source-index.json
+├── source-summary.md
+└── citations.json
+```
+
 ## Progressive diagnosis rules
 
 1. First reflect the user's request in your own words.
 2. Infer the likely deck type, but mark it as tentative if uncertain.
 3. Diagnose the real job of the deck, not just the topic.
-4. If materials are provided, extract useful facts, constraints, claims, numbers, and reusable context.
+4. If materials are provided, register them in the source package and extract useful facts, constraints, claims, numbers, and reusable context.
 5. Proactively remind the user that reference materials can materially improve the PPT, even if they have not mentioned any. Ask for official websites, reference links, old PPTs, documents, screenshots, brand guidelines, data files, or example cases when they would help the deck.
 6. Check whether the desired outcome is concrete enough. If the user says only "介绍一下", "分享一下", "讲清楚", "教他们使用", or another broad goal, translate it into 2-4 possible audience outcomes and ask the user to confirm or choose.
 7. If the user mentions multiple possible uses, ask which use case should be prioritized before creating the Goal Diagnosis.
@@ -304,6 +321,13 @@ Do not over-analyze the materials in this skill. The purpose is to prepare the n
 ## PPT Project Brief
 
 This skill should output `PPT Project Brief v1: Goal` when enough information is available.
+
+In V2 project mode, also write or update:
+
+- `00-intake/user-brief.md`
+- `00-intake/source-index.json`
+- `00-intake/source-summary.md`
+- `00-intake/citations.json` when goal-relevant facts, claims, data, or cases are already identifiable
 
 The brief is the handoff object for the rest of the PPT workflow. Later skills will read it instead of guessing from scattered conversation context.
 

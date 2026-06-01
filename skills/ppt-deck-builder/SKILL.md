@@ -1,13 +1,15 @@
 ---
 name: ppt-deck-builder
-description: Use this skill after PPT slide writing is approved to build an editable PowerPoint/PPTX from PPT Project Brief v3. It selects a theme family and page layouts from the content spec, generates or prepares needed images through available image skills/tools, builds an editable PPTX with TypeScript + PptxGenJS, applies playback/animation settings, runs build QA, and outputs PPT Project Brief v4: Built Deck.
+description: Use this skill after PPT slide writing is approved to build an editable PowerPoint/PPTX from PPT Project Brief v3. It routes into either the default SVG-native page-by-page design branch or the optional PPTGenJS template-native branch, applies playback/animation settings, runs build QA, and outputs PPT Project Brief v4: Built Deck.
 ---
 
 # PPT Deck Builder
 
-Use this skill to turn `PPT Project Brief v3: Slide Content Specification` into an editable `.pptx` delivery package.
+Use this skill to turn `PPT Project Brief v3: Slide Spec` into an editable `.pptx` delivery package.
 
-This skill owns theme selection, layout selection, image generation/placement, typography, visual hierarchy, playback behavior, PPTX generation, and build QA.
+This skill owns visual route selection, page-level visual design, SVG composition, selective image generation/placement, typography, visual hierarchy, playback behavior, PPTX generation, and build QA.
+
+For V2 project-mode runs, read `../../references/v2-architecture.md`, `../../references/svg-visual-route.md`, `../../references/visual-lock.md`, `../../references/svg-technical-standards.md`, `../../references/image-generation-system.md`, `../../references/svg-quality-check.md`, `../../references/visual-component-registry.md`, and `../../references/template-system-v2.md`. SVG is the default page-by-page design branch, but it must export to editable native PPTX objects whenever possible; do not degrade to whole-slide bitmap PPT. This skill owns the design/build artifacts under `04-design/` and `05-build/`.
 
 ## Responsibility Boundary
 
@@ -18,16 +20,64 @@ This skill owns theme selection, layout selection, image generation/placement, t
 
 Do not hide weak content with design. Do not use one old template for every deck type.
 
-This skill owns the final design system: style template selection, typography, colors, spacing, page-type templates, component rendering, visual rhythm, and export QA.
+This skill owns the final design system: visual route, style system, typography, colors, spacing, SVG visual language, page rhythm, component/image fusion, and export QA.
+
+## Visual Route Strategy
+
+Skill 4 has two build branches. Default to the SVG-native branch, while preserving the template-native branch as an explicit option.
+
+| Branch | Default? | Use when | Core idea |
+|---|---:|---|---|
+| `svg-native` | yes | user asks for a designed deck, no strict corporate PPTX template is supplied, or the deck needs stronger visual impact | Generate each page as an SVG-led design, quality-check the SVG, then convert/assemble into editable native PPTX objects. AI images are supporting assets, not whole-slide fallbacks. |
+| `template-native` | no | user supplies a corporate template, requests strict template following, wants fastest deterministic production, or explicitly says not to use SVG | Use registered layout/theme/component templates and render with PPTGenJS native shapes/text. |
+
+Default to `svg-native` unless the user explicitly chooses `template-native` or provides a strict template that must be preserved.
+
+Route selection rules:
+
+- If the user says "SVG", "视觉路线", "设计感", "像海报/杂志/活动页", or wants stronger aesthetics, choose `svg-native`.
+- If the user says "按公司模板", "套模板", "保持原模板", "稳定模式", "快速生成", "不要 SVG", or provides a `.pptx` template, choose `template-native`.
+- If the user does not choose, proceed with `svg-native`.
+- Do not mix both routes randomly page by page. A deck should have one primary route.
+- Legacy aliases: treat `svg-visual` and `editable-page-design` as `svg-native`; treat `template` as `template-native`.
+
+`svg-native` route model:
+
+```text
+page-by-page SVG design plan
+-> hand/authored SVG pages or generated SVG page specs
+-> SVG quality check
+-> SVG-to-native-PPTX conversion/assembly
+-> optional AI image assets inserted into SVG/PPT slots
+-> QA and playback settings
+```
+
+- SVG-native output target: final PPTX should keep text, shapes, lines, cards, icons, diagrams, and numbers editable as native PowerPoint objects where the converter/toolchain supports it.
+- AI image layer: cover atmosphere, hero scene, product/lifestyle image, premium visual impact, content moments that benefit from realism or artistry.
+- Never rasterize the whole slide into one flat image as the final PPT route. Whole-slide bitmap fallback is forbidden unless the user explicitly accepts a non-editable preview artifact.
+
+`template-native` route model:
+
+```text
+registered theme/layout/component selection
+-> PPTGenJS native object rendering
+-> optional local SVG/icon/image components
+-> QA and playback settings
+```
 
 ## Primary Toolchain
 
-Default engine:
+Engines:
 
-- TypeScript + PptxGenJS
+- `svg-native`: SVG page design plus SVG-to-native-PPTX conversion/assembly.
+- `template-native`: TypeScript + PptxGenJS.
 - A reusable `ppt-builder-cli` style pipeline when available
 - Structured builder JSON derived from v3
+- `slide-spec.json` as the Skill 3 to Skill 4 handoff contract when project mode is used
+- Visual page plans, SVG pages, layout registry, and theme tokens for deterministic rendering
 - Editable PPTX output
+- Optional `design-lock.json`, `asset-manifest.json`, and `pptx-quality-report.json` when project mode is used
+- V2 project artifacts: `04-design/design-brief.json`, `04-design/design-system.json`, `04-design/visual-route.json`, `04-design/visual-page-plan.json`, `04-design/template-selection.json`, `04-design/asset-plan.json`, `05-build/svg-pages/`, `05-build/deck-builder-input.json`, and `05-build/output.pptx`
 
 Optional:
 
@@ -36,16 +86,20 @@ Optional:
 
 Image generation:
 
-- If v3 marks an asset as `can_generate`, call an installed image-generation skill/tool such as `nano-banana-image`, `baoyu-image-gen`, or the platform-native image tool.
+- If v3 marks an asset as `can_generate`, call an installed image-generation skill/tool such as the platform-native image tool, `nano-banana-image`, or `baoyu-image-gen`.
 - Use the full image prompt specification from v3. Do not invent unrelated prompts when v3 already provides the image purpose, subject, scene, composition, style, aspect ratio, size, and avoid-list.
 - Do not hand-write ad hoc provider API code inside this skill.
 - If image generation tools are unavailable, create a clearly marked placeholder and record the limitation.
+- In Codex test runs, use Codex's built-in image generation path for generated bitmap assets unless the user explicitly asks for a different provider.
+- Copy generated project-bound images from the platform default generated-image location into the project `assets/` folder before referencing them from `deck-builder-input.json`. Never leave a PPT-referenced image only under the tool's default generated-image cache.
+- Do not rasterize critical labels, coupon rules, source notes, QR codes, or data into generated images. Keep those as editable PPT text and use the image as scene/atmosphere/context.
 
 ## Required Input
 
 Prefer:
 
-- `PPT Project Brief v3: Slide Content Specification`
+- `PPT Project Brief v3: Slide Spec`
+- `03-production/slide-production-spec.json` when project mode is used
 - user-provided assets/screenshots/templates if any
 - source files or data if charts/tables are required
 
@@ -70,6 +124,197 @@ If these fields are missing across many slides, do not build blindly. Return a f
 
 If a slide requests a generated image but does not include a complete image prompt specification, return to `ppt-slide-writing`. Skill 4 must not fill that gap by free-associating an image.
 
+## Protocol Contracts
+
+Read these references before building from project-mode artifacts:
+
+- `../../references/slide-spec.md` for the Skill 3 to Skill 4 data contract.
+- `../../references/design-router.md` and `../../references/design-brief.md` for scenario-to-design decisions.
+- `../../references/component-pack-registry.md` for reusable component pack selection.
+- `../../references/layout-registry.md` for stable generic layout IDs.
+- `../../references/theme-tokens.md` for the design token model.
+- `../../references/svg-visual-route.md` for the default SVG visual-composition route.
+- `../../references/visual-lock.md` for the per-page SVG execution lock.
+- `../../references/svg-technical-standards.md` for SVG/PPTX compatibility rules.
+- `../../references/image-generation-system.md` for deck-wide image rendering/palette and prompt rules.
+- `../../references/svg-quality-check.md` for SVG QA requirements.
+- `../../references/skill4-slide-spec-build.md` for the slide-spec build sequence and layout resolution rules.
+- `../../references/visual-component-registry.md` for component, icon, chart, and Mermaid rules.
+- `../../references/template-system-v2.md` for theme/layout/component/template layering.
+
+Build order:
+
+1. Read `03-production/slide-production-spec.json`.
+2. Read each slide's `visualStrategy` before choosing assets, diagrams, or components.
+3. Read or create `04-design/design-brief.json` using the Design Router.
+4. Choose `visualRoute`: default `svg-native`, optional `template-native`.
+5. Read or create `04-design/design-system.json`.
+6. Write `04-design/visual-route.json`.
+7. Write or update `04-design/visual-lock.json`.
+8. Read or create `04-design/visual-strategy-report.json`.
+9. Read or create `04-design/asset-plan.json`.
+10. For `svg-native`, create `04-design/visual-page-plan.json` and page-level SVG composition specs before compiling build input.
+11. For `template-native`, create or update `04-design/template-selection.json` and map each slide to a registered renderer.
+12. Convert the resolved render plan into `05-build/deck-builder-input.json`.
+13. Generate PPTX with PPTGenJS.
+14. Run SVG quality check when SVG pages are present, then run package-level PPTX quality check.
+
+When the local builder is available, prefer the slide-spec entrypoint:
+
+```bash
+cd tools/ppt-builder-cli
+npx tsx src/cli.ts validate-slide-spec <v3-slide-spec.json>
+npx tsx src/cli.ts visual-strategy-report <v3-slide-spec.json> --out <visual-strategy-report.json>
+npx tsx src/cli.ts compile-slide-spec <v3-slide-spec.json> --out <v4-build-input.json>
+npx tsx src/cli.ts build-slide-spec <v3-slide-spec.json> --out <deck.pptx>
+```
+
+Use direct `build <deck-builder-input.json>` only for legacy inputs or targeted debugging.
+
+Skill 4 may choose exact renderer coordinates, font sizes, crop rectangles, SVG composition, visual rhythm, and theme token values. It may not change page intent, visible copy, slide count, case selection, required evidence, or image purpose.
+
+Skill 4 must respect `visualStrategy`:
+
+- If `primaryVisualType` is `ai-generated-image`, require a complete image prompt and do not replace it with Mermaid unless the image path fails.
+- If `secondaryVisualType` is `ai-generated-image`, generate and place the image in the layout slot defined by Skill 3 while keeping the primary editable component visible.
+- If `primaryVisualType` is `mermaid-diagram`, render the diagram or its PPT-native fallback visibly.
+- If `primaryVisualType` is `ppt-native-component`, prioritize editable components.
+- If `primaryVisualType` is `chart-table`, require source-aware chart/table content.
+- If `primaryVisualType` is `real-asset` or `screenshot`, do not fabricate substitutes.
+- If `primaryVisualType` is `none`, do not add decorative imagery. Use typography, spacing, color fields, rules, or subtle native background motifs.
+- If the selected primary visual path lacks the required downstream fields, stop and route back to `ppt-slide-writing`.
+
+## Project Mode Artifacts
+
+When a project folder exists, read and write these files:
+
+```text
+projects/<deck-slug>/
+├── 03-production/slide-production-spec.json
+├── 04-design/design-brief.json
+├── 04-design/design-system.json
+├── 04-design/visual-route.json
+├── 04-design/visual-lock.json
+├── 04-design/visual-page-plan.json
+├── 04-design/template-selection.json
+├── 04-design/asset-plan.json
+├── 05-build/svg-pages/
+├── 05-build/svg-native-output.pptx
+├── 05-build/deck-builder-input.json
+├── 05-build/output.pptx
+└── 06-review/quality-report.json
+```
+
+Use `../../references/design-lock.md` for the design lock contract and `../../references/asset-manifest.md` for asset tracking.
+
+Rules:
+
+- Read `04-design/design-brief.json` before choosing final theme, layout pack, component pack, icon policy, decoration policy, or image policy.
+- Read `04-design/design-system.json` before building or rebuilding when it exists.
+- If no design system exists, create one from the selected theme, typography, colors, layout rules, and forbidden patterns before generating PPTX.
+- If no `visual-route.json` exists, create it and set `route = "svg-native"` unless the user explicitly chose `template-native`.
+- If using `svg-native`, create `visual-lock.json` and `visual-page-plan.json` before building. `visual-lock.json` must be treated as the execution truth for colors, fonts, icons, images, rhythm, and SVG restrictions.
+- Read `visual-lock.json` before generating or repairing each SVG page.
+- If no design lock exists, include a `themeTokens` block compatible with `../../references/theme-tokens.md`.
+- Read `04-design/asset-plan.json` before inserting user-provided or generated assets when it exists.
+- Update asset statuses after build: `available`, `generated`, `build-native`, `placeholder`, or `missing`.
+- Write the final builder input to `05-build/deck-builder-input.json` when using project mode.
+- Run the PPTX quality checker after build when Node.js is available.
+
+## Design Router Rule
+
+Do not solve different deck scenarios by creating a new one-off theme for each case.
+
+Skill 4 should combine reusable layers:
+
+```text
+designMode + layoutPack + componentPack + iconPolicy + decorationPolicy + colorSystem + imagePolicy
+```
+
+If the design brief says `brand-event`, Skill 4 should not silently render the whole deck as a generic business/SMP-style page set. If the renderer cannot yet support the requested component pack, report the renderer gap and build the closest acceptable fallback only when the user wants a prototype.
+
+For the `svg-native` route, the same reusable layers still apply, but they constrain the SVG visual language rather than forcing every page into a fixed registered template.
+
+## V2 Template Selection
+
+Use this section only for the `template-native` branch or as a constraint source for the `svg-native` branch. It is no longer the default generation strategy.
+
+Do not treat a theme as the whole template. Select a combination:
+
+- `theme`: color, type, spacing, line, page chrome
+- `layoutPack`: cover/content/section/closing skeletons
+- `componentPack`: icon cards, KPI cards, flows, matrices, Mermaid styling
+- `iconPack`: icon family and usage rules
+
+Write this decision to `04-design/template-selection.json` in project mode.
+
+Minimum V2 implementation:
+
+- theme: `blueprint-swiss-v2` or the closest available native theme
+- layout pack: `swiss-editorial`
+- component pack: `business-teaching-components`
+- icon pack: line icons
+
+## V2 Component Rendering
+
+Render `componentPlan` before inventing new visual structures.
+
+Minimum V2 component support:
+
+- `icon-card`: editable card grid with consistent icons
+- `kpi-card`: large numeric proof block with source note
+- `process-flow`: editable step flow with arrows or rails
+- `comparison-matrix`: editable matrix/table
+- `mermaid-diagram`: render to local SVG/PNG when Mermaid tooling is available; otherwise use PPT-native fallback
+
+Mermaid must remain a local component. Do not render the whole slide as Mermaid unless the slide spec explicitly requires a diagram-only page.
+
+Current PPTGenJS-native behavior:
+
+- If a Mermaid renderer is available, render Mermaid as a local SVG/PNG component.
+- If Mermaid tooling is unavailable, render an editable PPT-native fallback from the provided syntax/fallback.
+- If Mermaid is only a supporting component and the primary component uses a full-page renderer, it may not appear visually. Treat this as a spec issue and route back to `ppt-slide-writing` or choose a diagram-first layout.
+- For `layout.recommendedLayout = "diagram-first"`, compile `diagramPlan` as the primary component and render a visible diagram page.
+
+## Visual Strategy Execution
+
+Skill 4 should build each slide from the visual strategy outward:
+
+```text
+visualStrategy
+-> primary visual object
+-> registered layout
+-> component renderer / asset slot / chart renderer / image slot
+-> typography and page chrome
+-> QA
+```
+
+Execution rules:
+
+- Do not add images only to make the page look richer.
+- Do add images when the approved v3 spec says the image carries scene, emotion, audience empathy, or product experience that text/components cannot carry.
+- Do not replace a real asset or screenshot requirement with generated imagery.
+- Keep factual labels, numbers, titles, source notes, and callouts editable in PPT.
+- If using an AI-generated image, place it as a supporting visual and keep key explanation in PPT text.
+- If using Mermaid, make the diagram visible in the chosen layout; otherwise route the spec back to Skill 3.
+- If using PPT-native components, render the actual `componentPlan.content`; do not use empty decorative cards.
+- If using icons, use `iconPlan.items` and keep icon style consistent across the deck.
+- If using chart/table, build from chart/table data and source requirements; never render data as a decorative illustration.
+- If no visual is requested, improve hierarchy with type, spacing, blocks, rules, and background motifs rather than inserting random art.
+
+For the `svg-native` route:
+
+- Read `04-design/visual-lock.json` before each page's SVG generation or repair.
+- Generate `04-design/visual-page-plan.json` before creating `deck-builder-input.json`.
+- Generate or update `05-build/svg-pages/slide-xx.svg` for every slide that has a non-empty SVG role.
+- Create page-level SVG compositions for backgrounds, motifs, icons, schematic shapes, callout frames, and diagrams.
+- Use generated bitmap images only where they improve meaning, emotion, realism, or first impression.
+- Keep SVG and images visually fused through shared palette, crop rules, spacing, and safe areas.
+- Keep critical text editable in PPT, even if the SVG contains decorative micro-type.
+- Do not use AI images as filler. Every image must have a page-level purpose and a complete prompt inherited from Skill 3 or the asset plan.
+- If SVG generation cannot support the requested page, record the gap and repair the SVG/page plan. Do not silently fall back to the template route.
+- Run `check-svg` before PPTX assembly when SVG files exist. SVG errors block delivery.
+
 ## Build Modes
 
 | Mode | When to use | Rule |
@@ -78,6 +323,8 @@ If a slide requests a generated image but does not include a complete image prom
 | `template-following` | Company template supplied | Preserve template visual grammar |
 | `reference-inspired` | Reference deck supplied | Borrow rhythm/taste, not exact copying |
 | `targeted-edit` | Existing PPT needs specific changes | Preserve existing style and edit only scope |
+
+`Build Mode` is separate from `Visual Route`. For example, `create + svg-native` is the default for new decks, while `template-following + template-native` is used for strict corporate-template work.
 
 ## Theme Router
 
@@ -181,15 +428,15 @@ Hard requirements:
 - Product/photos must use proportional cover/crop behavior; never stretch images.
 - Generated PPTX files must support manual click/keyboard advance and include compatible slide transition settings.
 
-### Guizang Swiss PPTX Theme
+### Blueprint Swiss PPTX Theme
 
-When using `guizang-swiss`, read and follow `references/guizang-swiss-pptx-theme.md` before building the deck.
+When using `blueprint-swiss`, read and follow `references/blueprint-swiss-pptx-theme.md` before building the deck.
 
 Hard requirements:
 
 - Generate directly with PPTGenJS; do not generate HTML and convert it to PPT.
-- Use `registeredLayout` values from the Guizang Swiss `S01-S22` system.
-- Use the Guizang Swiss registered layout system `S01-S22`; each layout has a PPTGenJS-native renderer.
+- Use `registeredLayout` values from the Blueprint Swiss `BP01-BP22` system.
+- Use the Blueprint Swiss registered layout system `BP01-BP22`; each layout has a PPTGenJS-native renderer.
 - Recreate the static Swiss visual system: strict grid, IKB/single-accent color, light large typography, hairlines, square badges, dot matrices, and proportional image crop.
 - Do not attempt to recreate WebGL or Motion One effects inside PPTX.
 
@@ -249,7 +496,7 @@ Minimum token set:
 
 ## Typography Rules
 
-Use these rules adapted from the proven Guizang Swiss and magazine PPT systems. Convert the ideas to PPTX units; do not copy HTML `vw/vh` values directly.
+Use these rules adapted from the proven Blueprint Swiss and magazine PPT systems. Convert the ideas to PPTX units; do not copy HTML `vw/vh` values directly.
 
 - One deck should use at most two font families: one display/body family plus optional mono/numeric family.
 - Use clean sans-serif for Swiss, business, AI product, bento, and tech templates.
@@ -350,6 +597,25 @@ For `build_native` assets from v3, Skill 4 must construct the specified componen
 Each component should inherit the selected template's typography, spacing, line, fill, and accent rules.
 
 If v3 says `build_native` but does not specify component structure/content, return to `ppt-slide-writing`.
+
+## Layout Safety Gate
+
+Before accepting a build, verify that the selected layout can carry the text. Text overlap, body-title wrapping, and cramped component cards are Skill 4 defects.
+
+For Blueprint Swiss, use these capacity limits as a hard baseline:
+
+| Element | Capacity |
+|---|---|
+| Cover title | may use deliberate two-line typography; visual review required when > 42 Chinese chars |
+| Body slide title | must be one line; <= 18 Chinese chars preferred; 19-22 is near capacity; > 22 must be fixed upstream |
+| Subtitle | <= 72 Chinese chars |
+| `icon-card` | <= 4 items; title <= 18 chars; body <= 34 chars |
+| `kpi-card` | <= 4 items; title <= 14 chars; body <= 28 chars |
+| `process-flow` / `timeline` | <= 5 items; title <= 8 chars; body <= 12 chars |
+| `comparison-matrix` | <= 6 items; title <= 16 chars; body <= 22 chars |
+| `checklist` | <= 5 items; title <= 22 chars; body <= 32 chars |
+
+If content exceeds capacity, route back to `ppt-slide-writing`, move explanation from title into subtitle/body, split the page, or choose a higher-capacity layout. Do not make tiny text or forced title wrapping the default solution.
 
 ## Layout Router
 
@@ -843,9 +1109,10 @@ If the backend cannot safely implement element animation, fall back to slide-lev
 14. Choose playback and animation policy from deck scenario and user preference.
 15. Generate PPTX using TypeScript + PptxGenJS or the selected backend.
 16. Apply PPTX post-processing for manual advance and supported slide transitions/element animations.
-17. Do not export `slide-previews/`, screenshots, PDFs, or contact sheets unless the user explicitly asks for them.
-18. Run build QA and fix visual/build issues before handing off.
-19. Output the full delivery package and `PPT Project Brief v4: Built Deck`.
+17. Export rendered previews only when explicitly requested or when final visual acceptance requires rendered verification. Use the preview renderer if available; if not available, write a skipped preview report and continue with package-level QA.
+18. Run build QA and the PPTX quality checker when available.
+19. Fix visual/build issues before handing off.
+20. Output the full delivery package and `PPT Project Brief v4: Built Deck`.
 
 ## Handoff And Confirmation Policy
 
@@ -857,7 +1124,7 @@ After building the editable PPTX:
 - Continue automatically to `ppt-final-check` when the delivery package is complete.
 - Do not ask the user to confirm the built deck before final check unless the user requested manual review, preview screenshots, or a specific visual variant decision.
 - If the build reveals upstream content, structure, or goal problems, route back to the owner skill instead of hiding the problem visually.
-- Optional previews, screenshots, contact sheets, and PDF exports are generated only when the user explicitly asks or when final check requires rendered visual verification.
+- Optional previews, screenshots, contact sheets, and PDF exports are generated only when the user explicitly asks or when final check requires rendered visual verification. Missing preview tools should be reported as a limitation, not treated as a build failure.
 
 ## Required Delivery Package
 
@@ -868,13 +1135,17 @@ ppt-delivery-package/
 ├── deck.pptx
 ├── project-brief-v4.md
 ├── deck-builder-input.json
-└── asset-log.json
+├── asset-log.json
+├── asset-manifest.json
+├── design-lock.json
+└── pptx-quality-report.json
 ```
 
 Optional files, only when explicitly requested:
 
 ```text
 ppt-delivery-package/
+├── preview-report.json
 ├── contact-sheet.png
 └── slide-previews/
     ├── slide-001.png
@@ -882,7 +1153,7 @@ ppt-delivery-package/
     └── ...
 ```
 
-Do not use Keynote, PowerPoint, LibreOffice, or any renderer to create previews unless the user asks for rendered previews or visual export.
+Do not use Keynote, PowerPoint, LibreOffice, or any renderer to create previews unless the user asks for rendered previews or visual export. When preview export is requested, prefer the non-interactive `render-preview` CLI command over opening desktop presentation software.
 
 ## QA Gates
 
@@ -909,6 +1180,7 @@ Before delivery, check:
 - text and shapes remain editable
 - playback supports manual click/keyboard advance
 - animation policy is appropriate, restrained, and recorded
+- `pptx-quality-report.json` passes or reports only accepted warnings when the checker is available
 - if previews were requested, contact sheet shows a coherent but not repetitive deck
 
 If build QA finds a Skill 4 issue, fix it here and rebuild. Do not pass obvious layout errors to Skill 5.

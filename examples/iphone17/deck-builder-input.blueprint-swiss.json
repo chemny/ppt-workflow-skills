@@ -10,14 +10,14 @@
     "lang": "zh-CN"
   },
   "theme": {
-    "id": "guizang-swiss",
+    "id": "blueprint-swiss",
     "fontFace": "PingFang SC",
     "coverVariant": "cobalt-blue"
   },
   "slides": [
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S01",
+      "registeredLayout": "BP01",
       "pageType": "cover",
       "slideNumber": 1,
       "eyebrow": "IPHONE 17 BRIEF",
@@ -27,7 +27,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S09",
+      "registeredLayout": "BP09",
       "pageType": "concept-explain",
       "slideNumber": 2,
       "eyebrow": "POSITIONING",
@@ -57,7 +57,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S04",
+      "registeredLayout": "BP04",
       "pageType": "learning-objectives",
       "slideNumber": 3,
       "eyebrow": "DECISION",
@@ -104,7 +104,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S22",
+      "registeredLayout": "BP22",
       "pageType": "concept-explain",
       "slideNumber": 4,
       "eyebrow": "DISPLAY",
@@ -138,7 +138,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S22",
+      "registeredLayout": "BP22",
       "pageType": "concept-explain",
       "slideNumber": 5,
       "eyebrow": "CAMERA",
@@ -172,7 +172,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S13",
+      "registeredLayout": "BP13",
       "pageType": "capability-map",
       "slideNumber": 6,
       "eyebrow": "SELFIE",
@@ -203,7 +203,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S09",
+      "registeredLayout": "BP09",
       "pageType": "concept-explain",
       "slideNumber": 7,
       "eyebrow": "BATTERY",
@@ -233,7 +233,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S04",
+      "registeredLayout": "BP04",
       "pageType": "checklist",
       "slideNumber": 8,
       "eyebrow": "DURABILITY",
@@ -281,7 +281,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S08",
+      "registeredLayout": "BP08",
       "pageType": "comparison",
       "slideNumber": 9,
       "eyebrow": "CHOICE",
@@ -305,7 +305,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S19",
+      "registeredLayout": "BP19",
       "pageType": "summary",
       "slideNumber": 10,
       "eyebrow": "WHO SHOULD BUY",
@@ -341,7 +341,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S04",
+      "registeredLayout": "BP04",
       "pageType": "risk-warning",
       "slideNumber": 11,
       "eyebrow": "BEFORE BUYING",
@@ -371,7 +371,7 @@
     },
     {
       "layout": "teaching-toolkit",
-      "registeredLayout": "S03",
+      "registeredLayout": "BP03",
       "pageType": "qa-closing",
       "slideNumber": 12,
       "eyebrow": "CLOSING",

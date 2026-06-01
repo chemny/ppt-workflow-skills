@@ -1,9 +1,9 @@
 ---
-name: ppt-workflow
+name: PPT-Maker
 description: Use this skill whenever the user wants to create, improve, generate, check, or rehearse a PPT, PowerPoint, slide deck, presentation, report deck, course deck, pitch deck, proposal deck, or business presentation. This is the router for the six-skill PPT workflow: ppt-goal-setting, ppt-slide-structure, ppt-slide-writing, ppt-deck-builder, ppt-final-check, and ppt-presentation-practice.
 ---
 
-# PPT Workflow
+# PPT-Maker
 
 Use this skill as the top-level router for the PPT workflow.
 
@@ -26,7 +26,7 @@ ppt-goal-setting
 |---:|---|---|---|
 | 1 | `ppt-goal-setting` | Clarify what PPT to make, for whom, in what scenario, and with what constraints | `PPT Project Brief v1: Goal Diagnosis` |
 | 2 | `ppt-slide-structure` | Choose suitable structure/framework and define chapters, page sequence, timing, and each page's core message | `PPT Project Brief v2: Slide Structure` |
-| 3 | `ppt-slide-writing` | Produce page-by-page final copy, material/data needs, image/chart descriptions, and composition descriptions | `PPT Project Brief v3: Slide Writing Draft` |
+| 3 | `ppt-slide-writing` | Produce page-by-page final copy, material/data needs, image/chart descriptions, layout specs, and component specs | `PPT Project Brief v3: Slide Spec` |
 | 4 | `ppt-deck-builder` | Build editable PPTX with visual system, layout, typography, assets, playback/animation settings, and QA | `PPT Project Brief v4: Built Deck` |
 | 5 | `ppt-final-check` | Act as the final quality gate: check logic, copy, data/source, visuals, compliance, score, and generate fix requests until PASS | `PPT Project Brief v5: Final Gate Report` |
 | 6 | `ppt-presentation-practice` | After v5 PASS, prepare live delivery: speaking strategy, timing, speaker cards, Q&A, pressure questions, and emergency talking points | `PPT Presentation Practice Report` |
@@ -76,13 +76,41 @@ Keep artifacts named consistently:
 ```text
 PPT Project Brief v1: Goal Diagnosis
 PPT Project Brief v2: Slide Structure
-PPT Project Brief v3: Slide Writing Draft
+PPT Project Brief v3: Slide Spec
 PPT Project Brief v4: Built Deck
 PPT Project Brief v5: Final Gate Report
 PPT Presentation Practice Report
 ```
 
 When moving to the next skill, pass forward the relevant prior artifacts instead of asking the user to restate information.
+
+For source-heavy, long, or rebuildable decks, use the project folder standard from `../../references/project-structure.md`.
+
+Recommended project artifacts:
+
+```text
+projects/<deck-slug>/
+├── 00-intake/
+├── 01-research/
+├── 02-structure/
+├── 03-production/
+├── 04-design/
+├── 05-build/
+├── 06-review/
+└── 07-practice/
+```
+
+Protocol references:
+
+- `../../references/v2-architecture.md` defines the V2 artifact flow.
+- `../../references/source-intake.md` defines source package and citation handling.
+- `../../references/research-brief.md` defines the research brief.
+- `../../references/visual-component-registry.md` defines components, icons, charts, and Mermaid usage.
+- `../../references/template-system-v2.md` defines theme/layout/component/template layering.
+- `../../references/slide-spec.md` defines the Skill 3 to Skill 4 contract.
+- `../../references/layout-registry.md` defines stable layout IDs.
+- `../../references/theme-tokens.md` defines theme token expectations.
+- `../../references/skill6-presentation-practice.md` defines project-level rehearsal output after v5 PASS.
 
 Expected final delivery package after Step 4:
 
@@ -91,7 +119,10 @@ ppt-delivery-package/
 ├── deck.pptx
 ├── project-brief-v4.md
 ├── deck-builder-input.json
-└── asset-log.json
+├── asset-log.json
+├── asset-manifest.json
+├── design-lock.json
+└── pptx-quality-report.json
 ```
 
 Optional preview artifacts are generated only when the user explicitly asks for screenshots, preview images, PDF export, or rendered visual verification:
@@ -106,14 +137,23 @@ Step 5 depends on the delivery package. If previews are missing, Step 5 can stil
 
 Step 6 depends on v5 PASS. If v5 is FAIL, route back to the owner skill in the fix request. If v5 is CONDITIONAL_PASS, ask whether the user accepts the remaining risks before formal rehearsal.
 
+In project mode, Step 6 can be generated with:
+
+```bash
+cd tools/ppt-builder-cli
+npx tsx src/cli.ts practice-project <project-dir> --out
+```
+
+This writes `07-practice/practice-report.md` and optional scripts under `07-practice/`.
+
 ## Responsibility Boundaries
 
 Use this ownership model when diagnosing problems:
 
 - `ppt-goal-setting`: purpose, scenario, target audience, delivery time, role, or success criteria.
 - `ppt-slide-structure`: narrative route, chapter logic, page sequence, slide count logic, page core messages.
-- `ppt-slide-writing`: final slide copy, page content, examples, data/source needs, material plan, image/chart descriptions.
-- `ppt-deck-builder`: editable PPTX generation, visual system, layout, typography, chart rendering, image generation/placement, playback/manual advance, animation settings, optional previews.
+- `ppt-slide-writing`: final slide copy, slide-spec contract, page content, examples, data/source needs, material plan, component specs, image/chart descriptions.
+- `ppt-deck-builder`: editable PPTX generation, visual system, layout registry mapping, theme tokens, chart rendering, image generation/placement, playback/manual advance, animation settings, optional previews.
 - `ppt-final-check`: final delivery gate, PASS/FAIL/CONDITIONAL_PASS, issue list, fix request, recheck requirement.
 - `ppt-presentation-practice`: only after PASS; speaking strategy, timing, speaker cards, simulated questions, pressure Q&A, emergency responses.
 

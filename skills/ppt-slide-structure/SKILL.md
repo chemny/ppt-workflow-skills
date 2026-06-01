@@ -7,6 +7,8 @@ description: Use this skill after the presentation goal has been diagnosed, espe
 
 Use this skill to turn a diagnosed presentation goal into a clear structure strategy and slide skeleton.
 
+For V2 project-mode runs, read `../../references/v2-architecture.md`, `../../references/source-intake.md`, and `../../references/research-brief.md`. This skill owns `01-research/research-brief.json` and `02-structure/structure-plan.json`.
+
 This skill is not a generic outline generator. Its value is selecting and combining suitable structure frameworks for the deck's real job.
 
 Frameworks are analysis tools, not the final product. Do not output a structure just because it matches a named framework. Use frameworks to reason about the user's goal, then produce a practical, tight, useful structure that can actually guide slide writing.
@@ -22,6 +24,7 @@ Given a `Goal Diagnosis` from `ppt-goal-setting`, produce:
 - chapter structure
 - estimated slide count and timing
 - slide-by-slide skeleton
+- page rhythm for each slide: `anchor`, `dense`, or `breathing`
 - evidence planning: what each slide needs to prove, what support exists, what gaps remain
 - data, case, demo, interaction, or material needs
 - recommended writing path: evidence-first, writing-first, or mixed
@@ -41,6 +44,8 @@ Use this skill to:
 - read provided reference materials and official sources enough to extract structure-shaping facts, examples, claims, and constraints
 - perform lightweight topic research before outlining when the topic is unfamiliar, modern, factual, technical, product-related, industry-specific, or likely to change over time
 - judge evidence dependency for the deck and each major section
+- produce a reusable research brief when topic/source research affects the structure
+- produce a structure plan artifact for Skill 3 instead of only a prose outline
 - decide whether the next step should be evidence-first, writing-first, or mixed
 - keep the deck from becoming a pile of materials
 - keep frameworks from becoming abstract labels with no delivery value
@@ -85,6 +90,14 @@ Useful fields include:
 If goal information is too weak, ask one clarification question or route back to `ppt-goal-setting`.
 
 This skill should preserve useful v1 fields and add `PPT Project Brief v2: Structure` for the next workflow step.
+
+In V2 project mode, also produce:
+
+```text
+01-research/research-brief.json
+02-structure/structure-plan.md
+02-structure/structure-plan.json
+```
 
 ## Analysis dimensions
 
@@ -161,6 +174,8 @@ The concept research gate should produce a short internal grounding before the v
 - Official sources inspected:
 - Structure implications:
 ```
+
+For project mode, persist this grounding in `01-research/research-brief.json`.
 
 ## Topic Research Before Outline
 
@@ -658,8 +673,8 @@ If the user is in `fast` mode or explicitly asks to continue automatically, mark
 |---|---|---|
 
 ## Slide Skeleton
-| Slide | Working title | Function | Core message | Support needed |
-|---:|---|---|---|---|
+| Slide | Working title | Function | Core message | Page rhythm | Support needed |
+|---:|---|---|---|---|---|
 
 ## Evidence Planning
 - Evidence dependency: high / medium / low
@@ -689,6 +704,9 @@ If the user is in `fast` mode or explicitly asks to continue automatically, mark
 ## Handoff
 - Next recommended skill: ppt-slide-writing
 - What the next skill should use:
+- V2 artifacts:
+  - `01-research/research-brief.json`
+  - `02-structure/structure-plan.json`
 - Slides to write first:
 - Slides that need evidence caution:
 - Open questions:

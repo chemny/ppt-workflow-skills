@@ -93,7 +93,7 @@ export function swissMinimal(fontFace = "PingFang SC"): ThemeTokens {
   };
 }
 
-export function guizangSwiss(fontFace = "PingFang SC"): ThemeTokens {
+export function blueprintSwiss(fontFace = "Hiragino Sans GB"): ThemeTokens {
   return {
     fontFace,
     bg: "FAFAF8",

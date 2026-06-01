@@ -11,13 +11,80 @@ export interface DeckSpec {
     event?: string;
     lang?: string;
   };
+  designBrief?: DeckDesignBrief;
   theme: {
-    id: "literary-warm" | "teaching-toolkit" | "ai-product-swiss" | "swiss-minimal" | "automotive-deep-blue" | "guizang-swiss";
+    id: "literary-warm" | "teaching-toolkit" | "ai-product-swiss" | "swiss-minimal" | "automotive-deep-blue" | "blueprint-swiss";
     fontFace?: string;
     coverVariant?: "cobalt-blue" | "electric-violet" | "emerald-black" | "coral-red" | "graphite-lime";
   };
   assets?: Record<string, string>;
   slides: SlideSpec[];
+}
+
+export interface DeckDesignBrief {
+  version?: string;
+  visualRoute?: "svg-native" | "template-native" | "editable-page-design" | "svg-visual" | "template" | string;
+  designMode?: string;
+  scenario?: string;
+  audience?: string[];
+  goals?: string[];
+  mood?: string[];
+  designIntent?: string;
+  colorSystem?: {
+    primary?: string;
+    background?: string;
+    surface?: string;
+    text?: string;
+    muted?: string;
+    accent?: string[];
+    risk?: string[];
+  };
+  typography?: {
+    scale?: string;
+    titleWeight?: string;
+    bodyDensity?: string;
+    rules?: string[];
+  };
+  layoutPack?: {
+    id?: string;
+    cover?: string;
+    body?: string[];
+    closing?: string;
+  };
+  componentPack?: {
+    id?: string;
+    required?: string[];
+    optional?: string[];
+  };
+  iconPolicy?: {
+    required?: boolean;
+    style?: string;
+    density?: string;
+    allowedCategories?: string[];
+    fallback?: string;
+  };
+  decorationPolicy?: {
+    level?: string;
+    motifs?: string[];
+    rules?: string[];
+  };
+  imagePolicy?: {
+    mode?: string;
+    aiGenerated?: string;
+    realAssets?: string;
+    nativeIllustration?: string;
+    rules?: string[];
+  };
+  svgPolicy?: {
+    mode?: string;
+    uses?: string[];
+    editableBoundary?: string[];
+  };
+  rendererGuidance?: {
+    preferredTheme?: string;
+    fallbackTheme?: string;
+    mustAvoid?: string[];
+  };
 }
 
 export type SlideSpec = TitleImageSplitSlide | TwoPerspectiveContrastSlide | RailFlowSlide | TeachingToolkitSlide;
@@ -80,28 +147,28 @@ export interface TeachingToolkitSlide extends BaseSlide {
     | "SM08"
     | "SM09"
     | "SM10"
-    | "S01"
-    | "S02"
-    | "S03"
-    | "S04"
-    | "S05"
-    | "S06"
-    | "S07"
-    | "S08"
-    | "S09"
-    | "S10"
-    | "S11"
-    | "S12"
-    | "S13"
-    | "S14"
-    | "S15"
-    | "S16"
-    | "S17"
-    | "S18"
-    | "S19"
-    | "S20"
-    | "S21"
-    | "S22";
+    | "BP01"
+    | "BP02"
+    | "BP03"
+    | "BP04"
+    | "BP05"
+    | "BP06"
+    | "BP07"
+    | "BP08"
+    | "BP09"
+    | "BP10"
+    | "BP11"
+    | "BP12"
+    | "BP13"
+    | "BP14"
+    | "BP15"
+    | "BP16"
+    | "BP17"
+    | "BP18"
+    | "BP19"
+    | "BP20"
+    | "BP21"
+    | "BP22";
   pageType:
     | "cover"
     | "section-divider"
@@ -115,6 +182,10 @@ export interface TeachingToolkitSlide extends BaseSlide {
     | "screenshot-callout"
     | "before-after"
     | "comparison"
+    | "data-proof"
+    | "case-example"
+    | "quote-analysis"
+    | "interaction-prompt"
     | "practice-task"
     | "risk-warning"
     | "checklist"
@@ -125,6 +196,8 @@ export interface TeachingToolkitSlide extends BaseSlide {
   subtitle?: string;
   body?: string;
   items?: TeachingItem[];
+  visualStrategy?: VisualStrategy;
+  componentPlan?: PlannedComponent[];
   prompt?: string;
   visual?: {
     type: "generated-image" | "screenshot" | "placeholder" | "native-diagram" | "none";
@@ -134,11 +207,37 @@ export interface TeachingToolkitSlide extends BaseSlide {
   sourceNote?: string;
 }
 
+export interface VisualStrategy {
+  needed?: boolean;
+  primaryVisualType: "ai-generated-image" | "svg-composition" | "real-asset" | "screenshot" | "mermaid-diagram" | "ppt-native-component" | "chart-table" | "none" | string;
+  secondaryVisualType?: "ai-generated-image" | "svg-composition" | "real-asset" | "screenshot" | "mermaid-diagram" | "ppt-native-component" | "chart-table" | "none" | string | null;
+  decisionReason?: string;
+  audienceValue?: string;
+  aiImageUse?: { use: boolean; reason?: string; prompt?: unknown };
+  mermaidUse?: { use: boolean; reason?: string; diagramType?: string; expectedOutput?: string };
+  nativeComponentUse?: { use: boolean; reason?: string; componentTypes?: string[] };
+  fallback?: string;
+}
+
 export interface TeachingItem {
   label?: string;
   title: string;
   body?: string;
+  icon?: string;
+  value?: string;
+  componentType?: string;
   tone?: "blue" | "green" | "yellow" | "red" | "muted";
+}
+
+export interface PlannedComponent {
+  id: string;
+  type: string;
+  purpose?: string;
+  content: TeachingItem[];
+  rendering?: string;
+  syntax?: string;
+  priority?: "primary" | "secondary" | "supporting" | string;
+  fallback?: string;
 }
 
 export function assertDeckSpec(value: unknown): asserts value is DeckSpec {
@@ -151,7 +250,7 @@ export function assertDeckSpec(value: unknown): asserts value is DeckSpec {
     deck.theme?.id !== "ai-product-swiss" &&
     deck.theme?.id !== "swiss-minimal" &&
     deck.theme?.id !== "automotive-deep-blue" &&
-    deck.theme?.id !== "guizang-swiss"
+    deck.theme?.id !== "blueprint-swiss"
   ) {
     throw new Error("Unsupported theme.id in this prototype.");
   }

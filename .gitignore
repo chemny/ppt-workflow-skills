@@ -2,6 +2,14 @@ node_modules/
 dist/
 output/
 outputs/
+projects/
+previews/
+slide-previews/
+*.trace.json
+*-quality-report.json
+preview-report.json
+visual-strategy-report.json
+native-svg-conversion-report.json
 *.pptx
 *.pdf
 *.png

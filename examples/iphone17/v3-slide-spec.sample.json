@@ -1,0 +1,408 @@
+{
+  "version": "0.2",
+  "meta": {
+    "title": "iPhone 17：标准版也值得认真看",
+    "subtitle": "面向换机用户的产品介绍简报",
+    "audience": "正在考虑换机的普通用户",
+    "scenario": "产品介绍分享",
+    "durationMinutes": 20,
+    "language": "zh-CN"
+  },
+  "writingStrategy": {
+    "audienceNeed": "听众想判断标准版 iPhone 17 是否足够好、是否值得买、是否需要上 Pro。",
+    "narrativeSpine": [
+      "先建立标准版定位",
+      "再用用户换机决策解释核心变化",
+      "用屏幕、相机、续航、耐用性证明体验提升",
+      "最后给出购买判断"
+    ],
+    "tone": "克制、具体、面向购买决策",
+    "evidenceRules": [
+      "产品参数必须标注 Apple 官方页面或技术规格",
+      "涉及价格、配置、上市状态时必须核实地区和日期"
+    ],
+    "copyRules": [
+      "标题直接说明本页价值",
+      "正文不堆参数，解释参数对日常使用的意义",
+      "避免把标准版写成 Pro 的替代品"
+    ]
+  },
+  "designDirection": {
+    "recommendedThemeFamily": "product-launch",
+    "recommendedStyleTemplate": "blueprint-swiss",
+    "visualTone": "明亮、克制、科技产品感",
+    "pageDensity": "medium",
+    "preferredLayoutComponents": [
+      "kpi-row",
+      "three-card",
+      "comparison",
+      "image-hero"
+    ],
+    "imageStyle": "官方产品图或可编辑 native diagram 优先，不生成假产品图",
+    "chartTableStyle": "大数字 + 短解释 + 来源",
+    "avoid": [
+      "无来源参数",
+      "装饰性科技图片",
+      "把 Pro 功能误写成标准版功能",
+      "小字号参数堆砌"
+    ]
+  },
+  "slides": [
+    {
+      "slideNumber": 1,
+      "sourceOutlineId": "v2-slide-1",
+      "pageType": "cover",
+      "title": "iPhone 17：标准版也值得认真看",
+      "subtitle": "不是 Pro 的替代品，而是这代 iPhone 最稳的日常选择",
+      "coreMessage": "标准版 iPhone 17 的价值在于把日常核心体验整体抬高。",
+      "pageConclusion": "这份分享会帮助听众判断标准版是否已经足够满足自己的换机需求。",
+      "audienceQuestion": "我到底该看标准版，还是直接看 Pro？",
+      "pageRhythm": "anchor",
+      "visibleBody": [
+        "面向换机用户的产品介绍简报",
+        "基于 Apple 官方页面与技术规格整理"
+      ],
+      "supportingDetails": [
+        "封面不使用生成图，避免出现虚假产品外观。",
+        "用大标题、产品定位和来源说明建立可信度。"
+      ],
+      "speakerNote": "开场先说明这不是参数发布会，而是帮普通用户做换机判断。",
+      "transition": "先看这代标准版到底变在什么地方。",
+      "layout": {
+        "intent": "premium product cover without fake imagery",
+        "recommendedLayout": "cover-typographic",
+        "contentZones": [
+          "large title",
+          "positioning subtitle",
+          "source/metadata"
+        ],
+        "textVisualRatio": "90/10",
+        "readingOrder": [
+          "title",
+          "subtitle",
+          "source note"
+        ],
+        "densityRule": "sparse cover, no body paragraph",
+        "visualPolicy": "native"
+      },
+      "components": [
+        {
+          "id": "cover-title-system",
+          "type": "typographic-block",
+          "role": "create premium first impression while keeping all text editable",
+          "structure": "large left-aligned title, subtitle below, small source note near bottom",
+          "content": [
+            {
+              "label": "title",
+              "text": "iPhone 17：标准版也值得认真看"
+            },
+            {
+              "label": "subtitle",
+              "text": "不是 Pro 的替代品，而是这代 iPhone 最稳的日常选择"
+            }
+          ],
+          "editable": true,
+          "rendering": "ppt-native",
+          "notesForBuilder": "Use typography and geometric background only; do not generate an iPhone image."
+        }
+      ],
+      "visual": {
+        "necessity": "not_needed",
+        "role": "not_needed",
+        "message": "Typography and official-source positioning carry the cover.",
+        "type": "none",
+        "prompt": null,
+        "fallback": "If the user provides official product imagery, use it as a restrained product signal."
+      },
+      "requiredAssets": [],
+      "dataSourceRequirements": [
+        {
+          "claim": "基于 Apple 官方页面与技术规格整理",
+          "sourceNeeded": "Apple iPhone 17 page and Apple Support technical specifications",
+          "status": "pending",
+          "risk": "Must verify the exact product name, specs, and availability for the target region."
+        }
+      ],
+      "riskFlags": [
+        "official_specs_required"
+      ]
+    },
+    {
+      "slideNumber": 2,
+      "sourceOutlineId": "v2-slide-2",
+      "pageType": "concept-explain",
+      "title": "这代标准版，核心变化不是一项参数",
+      "subtitle": "它把屏幕、相机、性能和耐用性同时抬到了更高基线。",
+      "coreMessage": "iPhone 17 标准版的提升是多个日常高频体验的组合。",
+      "pageConclusion": "用户不必只盯着单项参数，而应该看它是否解决了日常使用的高频痛点。",
+      "audienceQuestion": "这代标准版到底有什么值得关注？",
+      "pageRhythm": "dense",
+      "visibleBody": [
+        "屏幕更顺滑：ProMotion 让日常滑动、阅读和游戏更自然。",
+        "相机更稳：双 48MP 覆盖主摄、超广角和日常焦段。",
+        "性能更耐用：A19 是长期使用和智能能力的基础。"
+      ],
+      "supportingDetails": [
+        "这一页只建立判断框架，不展开全部参数。",
+        "后续页面分别解释屏幕、相机、续航和耐用性。"
+      ],
+      "speakerNote": "不要把这页讲成参数列表，要讲成普通用户的换机判断方式。",
+      "transition": "既然要从用户决策看产品，下一页先拆普通用户真正关心什么。",
+      "layout": {
+        "intent": "three key upgrade cards",
+        "recommendedLayout": "three-card",
+        "contentZones": [
+          "title",
+          "subtitle",
+          "three cards",
+          "source note"
+        ],
+        "textVisualRatio": "80/20",
+        "readingOrder": [
+          "title",
+          "subtitle",
+          "screen card",
+          "camera card",
+          "performance card"
+        ],
+        "densityRule": "three cards, each card no more than two visible lines",
+        "visualPolicy": "native"
+      },
+      "components": [
+        {
+          "id": "upgrade-three-cards",
+          "type": "three-card",
+          "role": "summarize the three most visible upgrades",
+          "structure": "one row of three cards; each card has short label, title, one-line meaning",
+          "content": [
+            {
+              "label": "屏幕",
+              "text": "ProMotion：日常滑动、阅读和游戏更顺。"
+            },
+            {
+              "label": "相机",
+              "text": "双 48MP：覆盖主摄、超广角和常用焦段。"
+            },
+            {
+              "label": "性能",
+              "text": "A19：长期使用和智能能力的硬件基础。"
+            }
+          ],
+          "editable": true,
+          "rendering": "ppt-native",
+          "notesForBuilder": "Use three cards with simple labels and accent marks; avoid decorative icons unless native."
+        }
+      ],
+      "componentPlan": [
+        {
+          "id": "upgrade-three-cards",
+          "type": "icon-card",
+          "purpose": "use three editable cards and icons to summarize the most visible upgrades",
+          "content": [
+            {
+              "label": "屏幕",
+              "text": "ProMotion 让日常滑动、阅读和游戏更顺。",
+              "icon": "monitor"
+            },
+            {
+              "label": "相机",
+              "text": "双 48MP 覆盖主摄、超广角和常用焦段。",
+              "icon": "camera"
+            },
+            {
+              "label": "性能",
+              "text": "A19 是长期使用和智能能力的硬件基础。",
+              "icon": "cpu"
+            }
+          ],
+          "rendering": "ppt-native",
+          "priority": "primary",
+          "fallback": "three plain editable cards"
+        }
+      ],
+      "iconPlan": {
+        "enabled": true,
+        "iconFamily": "line",
+        "style": "line",
+        "items": [
+          {
+            "targetId": "upgrade-three-cards",
+            "icon": "monitor",
+            "label": "屏幕",
+            "purpose": "identify screen upgrade"
+          },
+          {
+            "targetId": "upgrade-three-cards",
+            "icon": "camera",
+            "label": "相机",
+            "purpose": "identify camera upgrade"
+          },
+          {
+            "targetId": "upgrade-three-cards",
+            "icon": "cpu",
+            "label": "性能",
+            "purpose": "identify performance upgrade"
+          }
+        ],
+        "fallback": "use numbered labels if icon library is unavailable"
+      },
+      "chartPlan": null,
+      "diagramPlan": null,
+      "visual": {
+        "necessity": "not_needed",
+        "role": "not_needed",
+        "message": "The native card structure is enough for this framework page.",
+        "type": "none",
+        "prompt": null,
+        "fallback": "Use small native icon marks if the page feels sparse."
+      },
+      "requiredAssets": [],
+      "dataSourceRequirements": [
+        {
+          "claim": "ProMotion 最高 120Hz",
+          "sourceNeeded": "Apple official iPhone 17 technical specifications",
+          "status": "pending",
+          "risk": "Specs may vary by model and market."
+        },
+        {
+          "claim": "双 48MP camera system",
+          "sourceNeeded": "Apple official iPhone 17 page and technical specifications",
+          "status": "pending",
+          "risk": "Must avoid mixing Pro-only camera features."
+        }
+      ],
+      "riskFlags": [
+        "avoid_pro_feature_confusion"
+      ]
+    },
+    {
+      "slideNumber": 3,
+      "sourceOutlineId": "v2-slide-3",
+      "pageType": "learning-objectives",
+      "title": "普通用户买手机，真正关心的是这 6 件事",
+      "subtitle": "这份分享不堆参数，而是用换机决策来组织信息。",
+      "coreMessage": "用购买决策维度组织信息，比按官网参数顺序讲更适合普通用户。",
+      "pageConclusion": "后续每一页都围绕一个真实换机问题展开。",
+      "audienceQuestion": "我应该从哪些维度判断它适不适合我？",
+      "pageRhythm": "dense",
+      "visibleBody": [
+        "屏幕是否顺滑",
+        "照片是否稳定",
+        "性能是否够久",
+        "续航是否放心",
+        "机身是否耐用",
+        "价格是否合理"
+      ],
+      "supportingDetails": [
+        "这页定义后续的讲解路径。",
+        "每个维度都对应一个用户的真实购买疑问。"
+      ],
+      "speakerNote": "告诉听众接下来不会按参数表念，而会按他们的决策问题讲。",
+      "transition": "第一个高频体感问题，是屏幕。",
+      "layout": {
+        "intent": "six decision cards",
+        "recommendedLayout": "matrix",
+        "contentZones": [
+          "title",
+          "subtitle",
+          "2x3 decision matrix"
+        ],
+        "textVisualRatio": "85/15",
+        "readingOrder": [
+          "title",
+          "subtitle",
+          "six decision cards"
+        ],
+        "densityRule": "six cards; each card title plus one short explanation only",
+        "visualPolicy": "native"
+      },
+      "components": [
+        {
+          "id": "purchase-decision-matrix",
+          "type": "decision-matrix",
+          "role": "turn product features into user purchase questions",
+          "structure": "2 rows x 3 columns; each card has a decision question and one explanation",
+          "content": [
+            {
+              "label": "屏幕",
+              "text": "日常滑动、阅读和户外可读性。"
+            },
+            {
+              "label": "照片",
+              "text": "主摄、超广角、自拍和视频是否稳定。"
+            },
+            {
+              "label": "性能",
+              "text": "A19、图形能力和系统寿命。"
+            },
+            {
+              "label": "续航",
+              "text": "视频播放、快充和无线充电。"
+            },
+            {
+              "label": "耐用",
+              "text": "屏幕、机身、防水和日常损耗。"
+            },
+            {
+              "label": "价格",
+              "text": "标准版与 Pro 的边界。"
+            }
+          ],
+          "editable": true,
+          "rendering": "ppt-native",
+          "notesForBuilder": "Use a 2x3 grid with concise labels; no generated image."
+        }
+      ],
+      "componentPlan": [
+        {
+          "id": "purchase-decision-matrix",
+          "type": "comparison-matrix",
+          "purpose": "turn product features into six user purchase questions",
+          "content": [
+            {
+              "label": "屏幕",
+              "text": "日常滑动、阅读和户外可读性。"
+            },
+            {
+              "label": "照片",
+              "text": "主摄、超广角、自拍和视频是否稳定。"
+            },
+            {
+              "label": "性能",
+              "text": "A19、图形能力和系统寿命。"
+            },
+            {
+              "label": "续航",
+              "text": "视频播放、快充和无线充电。"
+            },
+            {
+              "label": "耐用",
+              "text": "屏幕、机身、防水和日常损耗。"
+            },
+            {
+              "label": "价格",
+              "text": "标准版与 Pro 的边界。"
+            }
+          ],
+          "rendering": "ppt-native",
+          "priority": "primary",
+          "fallback": "six editable text cards"
+        }
+      ],
+      "iconPlan": null,
+      "chartPlan": null,
+      "diagramPlan": null,
+      "visual": {
+        "necessity": "not_needed",
+        "role": "not_needed",
+        "message": "The decision matrix is the visual structure.",
+        "type": "none",
+        "prompt": null,
+        "fallback": "If needed, use small native number badges in each card."
+      },
+      "requiredAssets": [],
+      "dataSourceRequirements": [],
+      "riskFlags": []
+    }
+  ]
+}
